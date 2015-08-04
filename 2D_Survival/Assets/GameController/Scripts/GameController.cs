@@ -8,13 +8,16 @@ public class GameController : MonoBehaviour {
 	void Awake() {
 		if (GController == null) {
 			GController = this;
-			DontDestroyOnLoad(GController);
+			DontDestroyOnLoad (GController);
+		} 
+		else if (GController != this) {
+			Destroy(gameObject);
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
-		GameData.GData.Init ();
+		GameData.GData.Init (10,10);
 		GameRenderer.GRenderer.Init ();
 	}
 	
