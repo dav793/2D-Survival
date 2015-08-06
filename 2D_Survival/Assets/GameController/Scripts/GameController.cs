@@ -17,8 +17,14 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GameData.GData.Init (10,10);
+
+		GameData_Settings data_conf = new GameData_Settings ();
+		data_conf.world_size_x = 10;
+		data_conf.world_size_y = 10;
+
+		GameData.GData.Init (data_conf);
 		GameRenderer.GRenderer.Init ();
+	
 	}
 	
 	// Update is called once per frame

@@ -5,7 +5,7 @@ public class GameData : MonoBehaviour {
 
 	public static GameData GData;
 
-	private GTile[,] world;
+	private GTile[,] worldTiles;
 
 	void Awake() {
 		if (GData == null) {
@@ -21,8 +21,13 @@ public class GameData : MonoBehaviour {
 
 	}
 
-	public void Init(int x, int y) {
-		world = new GTile[x, y];
+	public void Init(GameData_Settings conf) {
+		worldTiles = new GTile[conf.world_size_x, conf.world_size_y];
+		for (int x = 0; x < conf.world_size_x; ++x) {
+			for (int y = 0; y < conf.world_size_y; ++y) {
+				worldTiles[x, y] = new GTile(x, y);
+			}
+		}
 	}
 
 }

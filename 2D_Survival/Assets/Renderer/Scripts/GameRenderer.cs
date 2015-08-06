@@ -7,13 +7,17 @@ public class GameRenderer : MonoBehaviour {
 	public static GameRenderer GRenderer;
 	public TerrainRenderer rTerrain;
 
-	private Queue<GameObject>[] UpdateQueues;
-	private readonly int queue_count = 7;
+	private RendererObjectUpdateQueues ObjectUpdateQueues;
+	private RendererTerrainUpdateQueues TerrainUpdateQueues;
+	//private readonly int queue_count = 7;
 
 	void Awake() {
 		if (GRenderer == null) {
 			GRenderer = this;
 			DontDestroyOnLoad(GRenderer);
+		}
+		else if (GRenderer != this) {
+			Destroy (gameObject);
 		}
 	}
 
@@ -27,82 +31,157 @@ public class GameRenderer : MonoBehaviour {
 	}
 
 	/*
-	 * Add operation on obj to a render update queue
+	 * Add operation on terrain sector to a render update queue
 	 */
-	public void ScheduleUpdate(RenderUpdateOperations operation, GameObject obj) {
-		UpdateQueues [(int)operation].Enqueue (obj);
+	public void ScheduleTerrainUpdate(RenderTerrainUpdateOperations operation, GameObject obj) {
+		TerrainUpdateQueues.getOperationQueue (operation).Enqueue(obj);
+	}
+
+	/*
+	 * Add operation on object to a render update queue
+	 */
+	public void ScheduleObjectUpdate(RenderObjectUpdateOperations operation, GameObject obj) {
+		ObjectUpdateQueues.getOperationQueue (operation).Enqueue(obj);
 	}
 
 	private void initUpdateQueues() {
-		UpdateQueues = new Queue<GameObject>[queue_count];
-		UpdateQueues [(int)RenderUpdateOperations.CREATE] 				= new Queue<GameObject> ();
-		UpdateQueues [(int)RenderUpdateOperations.DESTROY] 				= new Queue<GameObject> ();
-		UpdateQueues [(int)RenderUpdateOperations.UPDATE_POSITION] 		= new Queue<GameObject> ();
-		UpdateQueues [(int)RenderUpdateOperations.UPDATE_BRIGHTNESS] 	= new Queue<GameObject> ();
-		UpdateQueues [(int)RenderUpdateOperations.UPDATE_TINT] 			= new Queue<GameObject> ();
-		UpdateQueues [(int)RenderUpdateOperations.UPDATE_TRANSPARENCY] 	= new Queue<GameObject> ();
-		UpdateQueues [(int)RenderUpdateOperations.UPDATE_ANIMATION] 	= new Queue<GameObject> ();
+		ObjectUpdateQueues = new RendererObjectUpdateQueues ();
+		TerrainUpdateQueues = new RendererTerrainUpdateQueues ();
 	}
 
 	private void updateQueues() {
-		for (int i = 0; i < queue_count; ++i) {
-			while(UpdateQueues[i].Count > 0) {
-				GameObject obj = UpdateQueues[i].Dequeue ();
-				switch(i) {
-					case (int)RenderUpdateOperations.CREATE:
-						updateCreate (obj);
-						break;
-					case (int)RenderUpdateOperations.DESTROY:
-						updateDestroy (obj);
-						break;
-					case (int)RenderUpdateOperations.UPDATE_POSITION:
-						updatePosition (obj); 
-						break;
-					case (int)RenderUpdateOperations.UPDATE_BRIGHTNESS:
-						updateBrightness (obj);
-						break;
-					case (int)RenderUpdateOperations.UPDATE_TINT:
-						updateTint (obj); 
-						break;
-					case (int)RenderUpdateOperations.UPDATE_TRANSPARENCY:
-						updateTransparency (obj); 
-						break;
-					case (int)RenderUpdateOperations.UPDATE_ANIMATION:
-						updateAnimation (obj);
-						break;
-				}
-			}
-		} 
+		updateTerrainQueues ();
+		updateObjectQueues ();
 	}
 
-	private void updateCreate(GameObject obj) {
+	private void updateTerrainQueues() {
+		Queue<GameObject> queue;
 
-	}
+		queue = TerrainUpdateQueues.create;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateTerrainCreate (obj);
+		}
 
-	private void updateDestroy(GameObject obj) {
+		queue = TerrainUpdateQueues.destroy;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateTerrainDestroy (obj);
+		}
+
+		queue = TerrainUpdateQueues.update_brightness;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateTerrainBrightness (obj);
+		}
+
+		queue = TerrainUpdateQueues.update_tint;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateTerrainTint (obj);
+		}
 
 	}
 
-	private void updatePosition(GameObject obj) {
+	private void updateObjectQueues() {
+		Queue<GameObject> queue;
+
+		queue = ObjectUpdateQueues.create;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectCreate (obj);
+		}
+		
+		queue = ObjectUpdateQueues.destroy;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectDestroy (obj);
+		}
+
+		queue = ObjectUpdateQueues.update_position;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectPosition (obj);
+		}
+
+		queue = ObjectUpdateQueues.update_brightness;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectBrightness (obj);
+		}
+		
+		queue = ObjectUpdateQueues.update_tint;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectTint (obj);
+		}
+
+		queue = ObjectUpdateQueues.update_transparency;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectTransparency (obj);
+		}
+
+		queue = ObjectUpdateQueues.update_animation;
+		while (queue.Count > 0) {
+			GameObject obj = queue.Dequeue ();
+			updateObjectAnimation (obj);
+		}
 
 	}
 
-	private void updateBrightness(GameObject obj) {
+
+	/*
+	 *	RENDER UPDATE OPERATIONS 
+	 */
+
+	private void updateObjectCreate(GameObject obj) {
 
 	}
 
-	private void updateTint(GameObject obj) {
+	private void updateObjectDestroy(GameObject obj) {
 
 	}
 
-	private void updateTransparency(GameObject obj) {
+	private void updateObjectPosition(GameObject obj) {
 
 	}
 
-	private void updateAnimation(GameObject obj) {
+	private void updateObjectBrightness(GameObject obj) {
+
+	}
+
+	private void updateObjectTint(GameObject obj) {
+
+	}
+
+	private void updateObjectTransparency(GameObject obj) {
+
+	}
+
+	private void updateObjectAnimation(GameObject obj) {
 
 	}
 
 
+	private void updateTerrainCreate(GameObject obj) {
+		
+	}
+	
+	private void updateTerrainDestroy(GameObject obj) {
+		
+	}
+
+	private void updateTerrainBrightness(GameObject obj) {
+		
+	}
+	
+	private void updateTerrainTint(GameObject obj) {
+		
+	}
+
+	/*
+	 *	END OF RENDER UPDATE OPERATIONS 
+	 */
 
 }
