@@ -6,9 +6,12 @@ public class GameRenderer : MonoBehaviour {
 
 	public static GameRenderer GRenderer;
 	public TerrainRenderer rTerrain;
+	public ObjectRenderer rObject;
 
 	private RendererObjectUpdateQueues ObjectUpdateQueues;
 	private RendererTerrainUpdateQueues TerrainUpdateQueues;
+
+	private List<WorldSector> renderedSectors;
 	//private readonly int queue_count = 7;
 
 	void Awake() {
@@ -22,31 +25,15 @@ public class GameRenderer : MonoBehaviour {
 	}
 
 	public void Tick() {
+		adjustVisibleSectors ();
 		updateQueues ();
 	}
 
 	public void Init() {
+		renderedSectors = new List<WorldSector> ();
 		initUpdateQueues ();
 		rTerrain.Init ();
-	}
-
-	/*
-	 * Add operation on terrain sector to a render update queue
-	 */
-	public void ScheduleTerrainUpdate(RenderTerrainUpdateOperations operation, GameObject obj) {
-		TerrainUpdateQueues.getOperationQueue (operation).Enqueue(obj);
-	}
-
-	/*
-	 * Add operation on object to a render update queue
-	 */
-	public void ScheduleObjectUpdate(RenderObjectUpdateOperations operation, GameObject obj) {
-		ObjectUpdateQueues.getOperationQueue (operation).Enqueue(obj);
-	}
-
-	private void initUpdateQueues() {
-		ObjectUpdateQueues = new RendererObjectUpdateQueues ();
-		TerrainUpdateQueues = new RendererTerrainUpdateQueues ();
+		rObject.Init ();
 	}
 
 	private void updateQueues() {
@@ -54,78 +41,108 @@ public class GameRenderer : MonoBehaviour {
 		updateObjectQueues ();
 	}
 
+	private void initUpdateQueues() {
+		ObjectUpdateQueues = new RendererObjectUpdateQueues ();
+		TerrainUpdateQueues = new RendererTerrainUpdateQueues ();
+	}
+
+	/*
+	 * Add operation on terrain sector to a render update queue
+	 */
+	public void ScheduleTerrainUpdate(RenderTerrainUpdateOperations operation, WorldSector sector) {
+		TerrainUpdateQueues.getOperationQueue (operation).Enqueue(sector);
+	}
+
+	/*
+	 * Add operation on object to a render update queue
+	 */
+	public void ScheduleObjectUpdate(RenderObjectUpdateOperations operation, GObject obj) {
+		ObjectUpdateQueues.getOperationQueue (operation).Enqueue(obj);
+	}
+
+	private void adjustVisibleSectors() {
+
+		List<WorldSector> visible = GameData.GData.getSectorAreaRender ();
+
+		for (int i = 0; i < visible.Count; ++i) {
+			if(!sectorIsContained(visible[i], renderedSectors) && !visible[i].is_rendered) {
+				//schedule creation of new sector
+				ScheduleTerrainUpdate(RenderTerrainUpdateOperations.CREATE, visible[i]);
+			}
+		}
+
+		for (int i = 0; i < renderedSectors.Count; ++i) {
+			if(!sectorIsContained(renderedSectors[i], visible) && renderedSectors[i].is_rendered) {
+				//schedule destruction of old sector
+				ScheduleTerrainUpdate(RenderTerrainUpdateOperations.DESTROY, renderedSectors[i]);
+			}
+		}
+
+		renderedSectors = visible;
+
+	}
+
 	private void updateTerrainQueues() {
-		Queue<GameObject> queue;
+		Queue<WorldSector> queue;
 
 		queue = TerrainUpdateQueues.create;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateTerrainCreate (obj);
+			updateTerrainCreate (queue.Dequeue ());
 		}
 
 		queue = TerrainUpdateQueues.destroy;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateTerrainDestroy (obj);
+			updateTerrainDestroy (queue.Dequeue ());
 		}
 
 		queue = TerrainUpdateQueues.update_brightness;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateTerrainBrightness (obj);
+			updateTerrainBrightness (queue.Dequeue ());
 		}
 
 		queue = TerrainUpdateQueues.update_tint;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateTerrainTint (obj);
+			updateTerrainTint (queue.Dequeue ());
 		}
 
 	}
 
 	private void updateObjectQueues() {
-		Queue<GameObject> queue;
+		Queue<GObject> queue;
 
 		queue = ObjectUpdateQueues.create;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectCreate (obj);
+			updateObjectCreate (queue.Dequeue ());
 		}
 		
 		queue = ObjectUpdateQueues.destroy;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectDestroy (obj);
+			updateObjectDestroy (queue.Dequeue ());
 		}
 
 		queue = ObjectUpdateQueues.update_position;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectPosition (obj);
+			updateObjectPosition (queue.Dequeue ());
 		}
 
 		queue = ObjectUpdateQueues.update_brightness;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectBrightness (obj);
+			updateObjectBrightness (queue.Dequeue ());
 		}
 		
 		queue = ObjectUpdateQueues.update_tint;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectTint (obj);
+			updateObjectTint (queue.Dequeue ());
 		}
 
 		queue = ObjectUpdateQueues.update_transparency;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectTransparency (obj);
+			updateObjectTransparency (queue.Dequeue ());
 		}
 
 		queue = ObjectUpdateQueues.update_animation;
 		while (queue.Count > 0) {
-			GameObject obj = queue.Dequeue ();
-			updateObjectAnimation (obj);
+			updateObjectAnimation (queue.Dequeue ());
 		}
 
 	}
@@ -135,53 +152,68 @@ public class GameRenderer : MonoBehaviour {
 	 *	RENDER UPDATE OPERATIONS 
 	 */
 
-	private void updateObjectCreate(GameObject obj) {
+	private void updateObjectCreate(GObject obj) {
 
 	}
 
-	private void updateObjectDestroy(GameObject obj) {
+	private void updateObjectDestroy(GObject obj) {
 
 	}
 
-	private void updateObjectPosition(GameObject obj) {
+	private void updateObjectPosition(GObject obj) {
 
 	}
 
-	private void updateObjectBrightness(GameObject obj) {
+	private void updateObjectBrightness(GObject obj) {
 
 	}
 
-	private void updateObjectTint(GameObject obj) {
+	private void updateObjectTint(GObject obj) {
 
 	}
 
-	private void updateObjectTransparency(GameObject obj) {
+	private void updateObjectTransparency(GObject obj) {
 
 	}
 
-	private void updateObjectAnimation(GameObject obj) {
+	private void updateObjectAnimation(GObject obj) {
 
 	}
 
 
-	private void updateTerrainCreate(GameObject obj) {
+	private void updateTerrainCreate(WorldSector sector) {
+		if (!sector.is_rendered) {
+			rTerrain.setupSector (sector);
+			//Debug.Log ("sector " + sector.index_x + ", " + sector.index_y + " is created.");
+		}
+	}
+	
+	private void updateTerrainDestroy(WorldSector sector) {
+		if (sector.is_rendered) {
+			rTerrain.discardSector (sector);
+			//Debug.Log ("sector " + sector.index_x + ", " + sector.index_y + " is destroyed.");
+		}
+	}
+
+	private void updateTerrainBrightness(WorldSector sector) {
 		
 	}
 	
-	private void updateTerrainDestroy(GameObject obj) {
-		
-	}
-
-	private void updateTerrainBrightness(GameObject obj) {
-		
-	}
-	
-	private void updateTerrainTint(GameObject obj) {
+	private void updateTerrainTint(WorldSector sector) {
 		
 	}
 
 	/*
 	 *	END OF RENDER UPDATE OPERATIONS 
 	 */
+
+	public bool sectorIsContained(WorldSector needle, List<WorldSector> haystack) {
+		for (int i = 0; i < haystack.Count; ++i) {
+			if(needle == haystack[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

@@ -12,10 +12,39 @@ public class TerrainRenderer : MonoBehaviour {
 
 	public void Init() {
 		initObjectPool ();
-		//TEST - DELETE LATER
-		GameObject t_mesh = terrainObjectPool.pop (); 
-		t_mesh.GetComponent<MeshRenderer> ().material = texMan.terrain_material;
-		t_mesh.GetComponent<MeshFilter> ().mesh = generateMesh (100, 32);
+	}
+
+	public void setupSector(WorldSector sector) {
+		float sector_width = GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width;
+		GameObject obj = getNewTerrainObject();
+		setupObject(obj);
+		obj.transform.position = new Vector3 (
+			sector.index_x * sector_width + sector_width,
+			sector.index_y * sector_width,
+			0
+		);
+		sector.terrainGameObject = obj;
+		sector.is_rendered = true;
+	}
+
+	public void discardSector(WorldSector sector) {
+		discardTerrainObject (sector.terrainGameObject);
+		sector.terrainGameObject = null;
+		sector.is_rendered = false;
+	}
+
+	private GameObject getNewTerrainObject() {
+		GameObject obj = terrainObjectPool.pop ();
+		return obj;
+	}
+
+	private void discardTerrainObject(GameObject obj) {
+		terrainObjectPool.push (obj);
+	}
+
+	private void setupObject(GameObject obj) {
+		obj.GetComponent<MeshRenderer> ().material = texMan.terrain_material;
+		obj.GetComponent<MeshFilter> ().mesh = generateMesh (GameData.GData.data_settings.sector_size * GameData.GData.data_settings.sector_size, GameData.GData.data_settings.tile_width);
 	}
 
 	private Mesh generateMesh(int tile_count, float tile_width) {
@@ -62,18 +91,6 @@ public class TerrainRenderer : MonoBehaviour {
 
 	}
 
-	private void initObjectPool() {
-		// Destroy any previous objects
-		List<GameObject> children = new List<GameObject> ();
-		foreach(Transform child in terrainObjectHolder.transform) {
-			children.Add(child.gameObject);
-		}
-		children.ForEach (child => Destroy(child));
-
-		// Initialize terrain mesh object pool
-		terrainObjectPool = new GameObjectPool (terrainObject, 256, terrainObjectHolder);
-	}
-
 	private void setTileVertices(int tile_index, Vector3 vert0, Vector3 vert1, Vector3 vert2, Vector3 vert3, Vector3[] vertices) {
 		vertices [4*tile_index + (int)TileVertices.topLeft] 	  	= vert0;
 		vertices [4*tile_index + (int)TileVertices.topRight] 	  	= vert1;
@@ -99,6 +116,18 @@ public class TerrainRenderer : MonoBehaviour {
 		uvs [4 * tile_index + (int)TileVertices.topRight] 		= new Vector2 (uvCoords[0].x, uvCoords[1].y);
 		uvs [4 * tile_index + (int)TileVertices.bottomRight] 	= new Vector2 (uvCoords[1].x, uvCoords[1].y);
 		uvs [4 * tile_index + (int)TileVertices.bottomLeft] 	= new Vector2 (uvCoords[1].x, uvCoords[0].y);
+	}
+
+	private void initObjectPool() {
+		// Destroy any previous objects
+		List<GameObject> children = new List<GameObject> ();
+		foreach(Transform child in terrainObjectHolder.transform) {
+			children.Add(child.gameObject);
+		}
+		children.ForEach (child => Destroy(child));
+		
+		// Initialize terrain mesh object pool
+		terrainObjectPool = new GameObjectPool (terrainObject, 256, terrainObjectHolder);
 	}
 
 }

@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: .00999999978
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: .211999997, g: .226999998, b: .259000003, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: .114, g: .125, b: .133000001, a: 1}
   m_AmbientGroundColor: {r: .0469999984, g: .0430000015, b: .0350000001, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
@@ -273,7 +273,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 300
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -339,6 +339,33 @@ MonoBehaviour:
   terrain_material: {fileID: 2100000, guid: 372415e9ba212224881714e4f0c79a32, type: 2}
   grid_cells_x: 3
   grid_cells_y: 12
+--- !u!1 &1089590125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1089590126}
+  m_Layer: 0
+  m_Name: CamTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1089590126
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1089590125}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1634955651}
+  m_RootOrder: 1
 --- !u!1 &1269269395
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +405,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!1 &1323438454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1323438455}
+  m_Layer: 0
+  m_Name: Objects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1323438455
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1323438454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1634955651}
+  m_RootOrder: 0
 --- !u!1 &1333923508
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rTerrain: {fileID: 1857245536}
+  rObject: {fileID: 1634955652}
 --- !u!4 &1333923510
 Transform:
   m_ObjectHideFlags: 0
@@ -417,8 +472,52 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1857245535}
+  - {fileID: 1634955651}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1 &1634955650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1634955651}
+  - 114: {fileID: 1634955652}
+  m_Layer: 0
+  m_Name: ObjectRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1634955651
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1634955650}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1323438455}
+  - {fileID: 1089590126}
+  m_Father: {fileID: 1333923510}
+  m_RootOrder: 1
+--- !u!114 &1634955652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1634955650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cb6a8a75a1b96449237416294ddaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gobject: {fileID: 196954, guid: 12b28412cd60d3243b174dbbd25467c9, type: 2}
+  gobjectHolder: {fileID: 1323438454}
 --- !u!1 &1857245534
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +528,7 @@ GameObject:
   - 4: {fileID: 1857245535}
   - 114: {fileID: 1857245536}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: TerrainRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

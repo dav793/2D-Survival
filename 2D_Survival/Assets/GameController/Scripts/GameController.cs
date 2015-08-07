@@ -4,7 +4,10 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public static GameController GController;
-	
+	public static GameData_Settings DataSettings;
+
+	private bool game_started = false;
+
 	void Awake() {
 		if (GController == null) {
 			GController = this;
@@ -18,18 +21,27 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		GameData_Settings data_conf = new GameData_Settings ();
-		data_conf.world_size_x = 10;
-		data_conf.world_size_y = 10;
+		GameData_Settings DataSettings = new GameData_Settings ();			// 	< look for type definition in Types.cs
+		DataSettings.world_size = 100;
+		DataSettings.sector_size = 10;
+		DataSettings.sectors_x = DataSettings.world_size / DataSettings.sector_size;
+		DataSettings.sectors_y = DataSettings.world_size / DataSettings.sector_size;
+		DataSettings.tile_width = 32;
+		DataSettings.within_range_radius = 20;
+		DataSettings.render_radius = 10;
 
-		GameData.GData.Init (data_conf);
+		GameData.GData.Init (DataSettings);
 		GameRenderer.GRenderer.Init ();
+
+		game_started = true;
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Tick ();
+		if (game_started) {
+			Tick ();
+		}
 	}
 
 	private void Tick() {

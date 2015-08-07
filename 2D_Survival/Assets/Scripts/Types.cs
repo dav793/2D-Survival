@@ -10,13 +10,18 @@ public enum RenderTerrainUpdateOperations { CREATE, DESTROY, UPDATE_BRIGHTNESS, 
 
 public enum RenderLayers { TERRAIN, WORLD, HUD, UI };
 
-public enum TileOperationMode { OUT_OF_CHARACTER_RANGE, WITHIN_CHARACTER_RANGE };
+public enum OperationMode { OUT_OF_CHARACTER_RANGE, WITHIN_CHARACTER_RANGE };
 
 public enum BOOL_YN { YES, NO };
 
 public struct GameData_Settings {
-	public int world_size_x;
-	public int world_size_y;
+	public int world_size;
+	public int sector_size;
+	public int sectors_x;
+	public int sectors_y;
+	public float tile_width;
+	public int within_range_radius;			// in tiles
+	public int render_radius;				// in tiles
 };
 
 public class Types {
@@ -29,25 +34,25 @@ public class Types {
 
 public class RendererObjectUpdateQueues {
 
-	public Queue<GameObject> create;
-	public Queue<GameObject> destroy;
-	public Queue<GameObject> update_position;
-	public Queue<GameObject> update_brightness;
-	public Queue<GameObject> update_tint;
-	public Queue<GameObject> update_transparency;
-	public Queue<GameObject> update_animation;
+	public Queue<GObject> create;
+	public Queue<GObject> destroy;
+	public Queue<GObject> update_position;
+	public Queue<GObject> update_brightness;
+	public Queue<GObject> update_tint;
+	public Queue<GObject> update_transparency;
+	public Queue<GObject> update_animation;
 
 	public RendererObjectUpdateQueues() {
-		create = new Queue<GameObject> ();
-		destroy = new Queue<GameObject> ();
-		update_position = new Queue<GameObject> ();
-		update_brightness = new Queue<GameObject> ();
-		update_tint = new Queue<GameObject> ();
-		update_transparency = new Queue<GameObject> ();
-		update_animation = new Queue<GameObject> ();
+		create = new Queue<GObject> ();
+		destroy = new Queue<GObject> ();
+		update_position = new Queue<GObject> ();
+		update_brightness = new Queue<GObject> ();
+		update_tint = new Queue<GObject> ();
+		update_transparency = new Queue<GObject> ();
+		update_animation = new Queue<GObject> ();
 	}
 
-	public Queue<GameObject> getOperationQueue(RenderObjectUpdateOperations operation) {
+	public Queue<GObject> getOperationQueue(RenderObjectUpdateOperations operation) {
 		switch(operation) {
 		case RenderObjectUpdateOperations.CREATE:
 			return create;
@@ -71,19 +76,19 @@ public class RendererObjectUpdateQueues {
 
 public class RendererTerrainUpdateQueues {
 
-	public Queue<GameObject> create;
-	public Queue<GameObject> destroy;
-	public Queue<GameObject> update_brightness;
-	public Queue<GameObject> update_tint;
+	public Queue<WorldSector> create;
+	public Queue<WorldSector> destroy;
+	public Queue<WorldSector> update_brightness;
+	public Queue<WorldSector> update_tint;
 
 	public RendererTerrainUpdateQueues() {
-		create = new Queue<GameObject> ();
-		destroy = new Queue<GameObject> ();
-		update_brightness = new Queue<GameObject> ();
-		update_tint = new Queue<GameObject> ();
+		create = new Queue<WorldSector> ();
+		destroy = new Queue<WorldSector> ();
+		update_brightness = new Queue<WorldSector> ();
+		update_tint = new Queue<WorldSector> ();
 	}
 
-	public Queue<GameObject> getOperationQueue(RenderTerrainUpdateOperations operation) {
+	public Queue<WorldSector> getOperationQueue(RenderTerrainUpdateOperations operation) {
 		switch(operation) {
 		case RenderTerrainUpdateOperations.CREATE:
 			return create;
@@ -127,6 +132,26 @@ public class RendererTerrainUpdateQueues {
  * 		|		| 		| 		|		 	  |	 	  | 	  |    	  |
  * 	   Yes	    No	   Yes		No			 Yes	  No	 Yes	  No
  * 
+ * 			
+ * 		Structures:
+ * 			Interactable - object with which some actors may interact
+ * 				interactables: table, barrel, coffee maker, door, sofa...
+ * 				non-interactables: wall, statue, column...
+ * 
+ * 			Movable - can be moved after their initial placement
+ * 				movables: coffee maker, barrel, sofa...
+ * 				non-movables: door, wall, window...
+ * 
+ * 		Actors:
+ * 			Mobile - may move through its own accord
+ * 				mobiles: player, NPCs, animals, critters
+ * 				non-mobiles: trees, vegetation, rocks			
+ * 
+ * 			Environmental - has an effect in the environmental balance of the sector. typically any member of a species is environmental.
+ * 				environmentals: animals, vegetation, salty rock
+ * 				non-environmentals: player, NPCs, other inanimate actors like aestethical rocks (maybe?)
+ * 
+ * 		Items: items which may be picked up and carried in an inventory, which are in their "unplaced" or dropped form in the world
  */
 public class GObject_RefLists {
 	public GObject_Structures_RefList structures;
