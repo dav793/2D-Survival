@@ -143,7 +143,7 @@ public class RendererTerrainUpdateQueues {
  * 				non-movables: door, wall, window...
  * 
  * 		Actors:
- * 			Mobile - may move through its own accord
+ * 			Mobile - may move and/or act through its own accord
  * 				mobiles: player, NPCs, animals, critters
  * 				non-mobiles: trees, vegetation, rocks			
  * 

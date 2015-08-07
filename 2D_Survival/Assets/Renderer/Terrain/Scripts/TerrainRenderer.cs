@@ -2,6 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ *	GameRenderer class:
+ *		Subcomponent of GameRenderer, which renders the terrain elements associated to a WorldSector. 
+ */
+
 public class TerrainRenderer : MonoBehaviour {
 
 	public TerrainTextureManager texMan;

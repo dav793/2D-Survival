@@ -2,6 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ *	GameRenderer class:
+ *		Visualizes game elements in the view, managing the construction, destruction and updating of Unity GameObjects on every render tick.
+ *		It uses subsets of the world representation from the GameData object to visually reflect the state of the data using Unity GameObjects 
+ *		and other visual elements.
+ *		It works with a set of Update Queues, in which itself and other game components can enqueue or "schedule" rendering operations for game objects.
+ *		All the jobs in the Update Queues are performed every render tick. 
+ */
+
 public class GameRenderer : MonoBehaviour {
 
 	public static GameRenderer GRenderer;

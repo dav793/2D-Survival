@@ -2,6 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ *	GameData class:
+ *		Contains all data for world simulation, and operates the data every tick to reflect time progression.
+ *		It is our model of the game world, in which the world and all of its constituents are represented.
+ *		Its data reflects the state of the world as of the current tick. 
+ *		It is not concerned with rendering, it only works on a conceptual world simulation.
+ */
+
 public class GameData : MonoBehaviour {
 
 	public static GameData GData;

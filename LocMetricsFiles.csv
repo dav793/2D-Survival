@@ -1,5 +1,5 @@
 File,LOC,SLOC-P,SLOC-L,MVG,BLOC,C&SLOC,CLOC,CWORD,HCLOC,HCWORD
-C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameController\Scripts\GameController.cs,54,39,31,2,13,0,2,10,0,0
+C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameController\Scripts\GameController.cs,53,38,30,2,13,1,2,17,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GObject.cs,9,7,6,0,2,0,0,0,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GActors\Birch.cs,8,4,3,0,4,0,0,0,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GActors\GActor.cs,8,4,3,0,4,0,0,0,0,0
@@ -9,13 +9,13 @@ C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GItems
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GItems\GItem.cs,8,4,3,0,4,0,0,0,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GStructures\Barrel.cs,8,4,3,0,4,0,0,0,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\GObjects\GStructures\GStructure.cs,8,4,3,0,4,0,0,0,0,0
-C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\Scripts\GameData.cs,110,80,50,10,19,0,11,36,0,0
+C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\Scripts\GameData.cs,113,91,57,14,20,0,2,4,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\Scripts\GTile.cs,19,13,11,0,5,0,1,4,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\GameData\Scripts\WorldSector.cs,38,28,24,0,8,0,2,8,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Renderer\Objects\Scripts\ObjectRenderer.cs,29,19,15,1,8,0,2,7,0,0
-C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Renderer\Scripts\GameRenderer.cs,192,127,93,12,52,0,13,41,0,0
-C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Renderer\Terrain\Scripts\TerrainRenderer.cs,105,72,57,3,25,0,8,32,0,0
+C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Renderer\Scripts\GameRenderer.cs,220,144,100,22,59,0,17,79,0,0
+C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Renderer\Terrain\Scripts\TerrainRenderer.cs,134,100,76,4,30,0,4,13,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Renderer\Terrain\Scripts\TerrainTextureManager.cs,25,20,17,3,5,0,0,0,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Scripts\GameObjectPool.cs,46,37,29,5,9,0,0,0,0,0
 C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Scripts\HashTable.cs,13,6,4,0,7,0,0,0,0,0
-C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Scripts\Types.cs,217,127,105,15,34,1,56,281,0,0
+C:\Users\David\Documents\2D-Survival\2D_Survival\Assets\Scripts\Types.cs,216,126,104,15,34,2,56,283,0,0

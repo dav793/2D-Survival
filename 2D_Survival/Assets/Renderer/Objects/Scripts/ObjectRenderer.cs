@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ *	GameRenderer class:
+ *		Subcomponent of GameRenderer, which renders GObjects 
+ */
 public class ObjectRenderer : MonoBehaviour {
 
 	public GameObject gobject;
