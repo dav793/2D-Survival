@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GItem : GObject {
+public class Biome {
 
-	public GItem() {
-
-	}
+	public BiomeTypes type;
 
 }

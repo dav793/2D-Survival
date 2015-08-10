@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum BiomeTypes { TropicalForest, ConiferousForest, Desert, AbandonedSettlement };
+
 public enum TileVertices { topLeft, topRight, bottomRight, bottomLeft };
 
 public enum RenderObjectUpdateOperations { CREATE, DESTROY, UPDATE_POSITION, UPDATE_BRIGHTNESS, UPDATE_TINT, UPDATE_TRANSPARENCY, UPDATE_ANIMATION };
@@ -15,13 +17,12 @@ public enum OperationMode { OUT_OF_CHARACTER_RANGE, WITHIN_CHARACTER_RANGE };
 public enum BOOL_YN { YES, NO };
 
 public struct GameData_Settings {
-	public int world_size;
-	public int sector_size;
-	public int sectors_x;
-	public int sectors_y;
-	public float tile_width;
-	public int within_range_radius;			// in tiles
-	public int render_radius;				// in tiles
+	public int world_size;					// world side length in tiles
+	public int sector_size;					// sector side length in tiles
+	public int world_side_sectors;			// world side length in sectors
+	public float tile_width;				// tile side length in units (pixels)
+	public int within_range_radius;			// tile radius around focus point to be within range
+	public int render_radius;				// tile radius around focus point to be within render range
 };
 
 public class Types {
@@ -151,8 +152,9 @@ public class RendererTerrainUpdateQueues {
  * 				environmentals: animals, vegetation, salty rock
  * 				non-environmentals: player, NPCs, other inanimate actors like aestethical rocks (maybe?)
  * 
- * 		Items: items which may be picked up and carried in an inventory, which are in their "unplaced" or dropped form in the world
+ * 		Items: items which may be picked up and carried inside an inventory, which are in their dropped form in the world
  */
+
 public class GObject_RefLists {
 	public GObject_Structures_RefList structures;
 	public GObject_Actors_RefList actors;
@@ -161,6 +163,17 @@ public class GObject_RefLists {
 		structures = new GObject_Structures_RefList ();
 		actors = new GObject_Actors_RefList ();
 		items = new GObject_Items_RefList ();
+	}
+}
+
+public class GObject_RefLists_Index {
+	public GObject_Structures_RefList_Index structures;
+	public GObject_Actors_RefList_Index actors;
+	public GObject_Items_RefList_Index items;
+	public GObject_RefLists_Index() {
+		structures = new GObject_Structures_RefList_Index ();
+		actors = new GObject_Actors_RefList_Index ();
+		items = new GObject_Items_RefList_Index ();
 	}
 }
 
@@ -181,6 +194,17 @@ public class GObject_Structures_RefList {
 	}
 }
 
+public class GObject_Structures_RefList_Index {
+	public int all;
+	public int[] interactable;
+	public int[] movable;
+	public GObject_Structures_RefList_Index() {
+		all = 0;
+		interactable = new int[2] {0, 0};
+		movable = new int[2] {0, 0};
+	}
+}
+
 public class GObject_Actors_RefList {
 	public List<GObject> all;
 	public List<GObject>[] mobile;
@@ -198,10 +222,28 @@ public class GObject_Actors_RefList {
 	}
 }
 
+public class GObject_Actors_RefList_Index {
+	public int all;
+	public int[] mobile;
+	public int[] environmental;
+	public GObject_Actors_RefList_Index(){
+		all = 0;
+		mobile = new int[2] {0, 0};
+		environmental = new int[2] {0, 0};
+	}
+}
+
 public class GObject_Items_RefList {
 	public List<GObject> all;
 	public GObject_Items_RefList() {
 		all = new List<GObject> ();
+	}
+}
+
+public class GObject_Items_RefList_Index {
+	public int all;
+	public GObject_Items_RefList_Index() {
+		all = 0;
 	}
 }
 

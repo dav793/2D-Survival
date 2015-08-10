@@ -8,7 +8,7 @@ using System.Collections.Generic;
  *		It uses subsets of the world representation from the GameData object to visually reflect the state of the data using Unity GameObjects 
  *		and other visual elements.
  *		It works with a set of Update Queues, in which itself and other game components can enqueue or "schedule" rendering operations for game objects.
- *		All the jobs in the Update Queues are performed every render tick. 
+ *		All scheduled jobs are performed every render tick until the Update Queues are empty. 
  */
 
 public class GameRenderer : MonoBehaviour {
@@ -193,14 +193,12 @@ public class GameRenderer : MonoBehaviour {
 	private void updateTerrainCreate(WorldSector sector) {
 		if (!sector.is_rendered) {
 			rTerrain.setupSector (sector);
-			//Debug.Log ("sector " + sector.index_x + ", " + sector.index_y + " is created.");
 		}
 	}
 	
 	private void updateTerrainDestroy(WorldSector sector) {
 		if (sector.is_rendered) {
 			rTerrain.discardSector (sector);
-			//Debug.Log ("sector " + sector.index_x + ", " + sector.index_y + " is destroyed.");
 		}
 	}
 

@@ -17,12 +17,13 @@ public class TerrainRenderer : MonoBehaviour {
 
 	public void Init() {
 		initObjectPool ();
+		texMan.Init ();
 	}
 
 	public void setupSector(WorldSector sector) {
 		float sector_width = GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width;
 		GameObject obj = getNewTerrainObject();
-		setupObject(obj);
+		setupObject(obj, sector);
 		obj.transform.position = new Vector3 (
 			sector.index_x * sector_width + sector_width,
 			sector.index_y * sector_width,
@@ -47,12 +48,12 @@ public class TerrainRenderer : MonoBehaviour {
 		terrainObjectPool.push (obj);
 	}
 
-	private void setupObject(GameObject obj) {
+	private void setupObject(GameObject obj, WorldSector sector) {
 		obj.GetComponent<MeshRenderer> ().material = texMan.terrain_material;
-		obj.GetComponent<MeshFilter> ().mesh = generateMesh (GameData.GData.data_settings.sector_size * GameData.GData.data_settings.sector_size, GameData.GData.data_settings.tile_width);
+		obj.GetComponent<MeshFilter> ().mesh = generateMesh (GameData.GData.data_settings.sector_size * GameData.GData.data_settings.sector_size, GameData.GData.data_settings.tile_width, sector);
 	}
 
-	private Mesh generateMesh(int tile_count, float tile_width) {
+	private Mesh generateMesh(int tile_count, float tile_width, WorldSector sector) {
 	
 		Mesh mesh = new Mesh ();
 		mesh.Clear ();
@@ -80,7 +81,7 @@ public class TerrainRenderer : MonoBehaviour {
 
 			setTileTriangles(i, triangles);
 
-			setTileUvs(i, uvs);
+			setTileUvs(i, uvs, sector, index_x, index_y);
 
 		}
 
@@ -115,8 +116,11 @@ public class TerrainRenderer : MonoBehaviour {
 		triangles [6*tile_index + 5] = 4*tile_index + (int)TileVertices.bottomRight;
 	}
 
-	private void setTileUvs(int tile_index, Vector2[] uvs) {
-		Vector2[] uvCoords = texMan.getUvCoords(UnityEngine.Random.Range(0, texMan.grid_cells_x), UnityEngine.Random.Range (0, texMan.grid_cells_y));
+	private void setTileUvs(int tile_index, Vector2[] uvs, WorldSector sector, int tile_index_x, int tile_index_y) {
+		Vector2 abs_indexes = new Vector2 (sector.lower_boundary_x + tile_index_x, sector.lower_boundary_y + tile_index_y);
+		GTile tile = GameData.GData.getTile (abs_indexes);
+		Vector2[] uvCoords = texMan.getUvCoords (texMan.getRandomTexture(tile.biome.type));
+		//Vector2[] uvCoords = texMan.getUvCoords(UnityEngine.Random.Range(0, texMan.grid_cells_x), UnityEngine.Random.Range (0, texMan.grid_cells_y));
 		uvs [4 * tile_index + (int)TileVertices.topLeft] 		= new Vector2 (uvCoords[0].x, uvCoords[0].y);
 		uvs [4 * tile_index + (int)TileVertices.topRight] 		= new Vector2 (uvCoords[0].x, uvCoords[1].y);
 		uvs [4 * tile_index + (int)TileVertices.bottomRight] 	= new Vector2 (uvCoords[1].x, uvCoords[1].y);

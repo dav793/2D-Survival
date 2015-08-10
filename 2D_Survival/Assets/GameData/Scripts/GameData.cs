@@ -45,18 +45,23 @@ public class GameData : MonoBehaviour {
 		for (int x = 0; x < data_settings.world_size; ++x) {
 			for (int y = 0; y < data_settings.world_size; ++y) {
 				worldTiles[x, y] = new GTile(x, y);
+				/* test */
+				if(UnityEngine.Random.Range(0,100) < 2) {
+					worldTiles[x, y].biome = BiomeData.coniferous_forest;
+				}
+				/* end test */
 			}
 		}
 
 		// init sectors
+		sectorsWithinRange = new List<WorldSector> ();
 		if (data_settings.world_size % data_settings.sector_size != 0) {
 			Debug.LogError ("Invalid sector size: Must be multiple of world size");
 		} 
 		else {
-			sectorsWithinRange = new List<WorldSector> ();
-			worldSectors = new WorldSector[data_settings.sectors_x, data_settings.sectors_y];
-			for (int x = 0; x < data_settings.sectors_x; ++x) {
-				for (int y = 0; y < data_settings.sectors_y; ++y) {
+			worldSectors = new WorldSector[data_settings.world_side_sectors, data_settings.world_side_sectors];
+			for (int x = 0; x < data_settings.world_side_sectors; ++x) {
+				for (int y = 0; y < data_settings.world_side_sectors; ++y) {
 					worldSectors[x, y] = new WorldSector(
 						x,
 						y,
@@ -73,6 +78,10 @@ public class GameData : MonoBehaviour {
 
 	private void adjustSectorsWithinRange() {
 		sectorsWithinRange = getSectorArea (getSectorIndexesWithinRange(data_settings.within_range_radius));
+	}
+
+	public GTile getTile(Vector2 indexes) {
+		return worldTiles[(int)indexes.x, (int)indexes.y];
 	}
 
 	public List<WorldSector> getSectorArea(Vector2[] boundary_sector_indexes) {
@@ -103,8 +112,8 @@ public class GameData : MonoBehaviour {
 
 	private Vector2 tileIndexesToSectorIndexes(Vector2 tile_indexes) {
 		Vector2 sector_indexes = new Vector2 (
-			Mathf.Clamp ( Mathf.FloorToInt(tile_indexes.x / data_settings.sector_size), 0, data_settings.sectors_x-1 ),
-		    Mathf.Clamp ( Mathf.FloorToInt(tile_indexes.y / data_settings.sector_size), 0, data_settings.sectors_y-1 )
+			Mathf.Clamp ( Mathf.FloorToInt(tile_indexes.x / data_settings.sector_size), 0, data_settings.world_side_sectors-1 ),
+			Mathf.Clamp ( Mathf.FloorToInt(tile_indexes.y / data_settings.sector_size), 0, data_settings.world_side_sectors-1 )
 		);
 		return sector_indexes;
 	}

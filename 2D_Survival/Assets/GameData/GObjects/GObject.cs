@@ -13,4 +13,15 @@ public class GObject {
 	public GTile tile;
 	public float offset_x;
 	public float offset_y;
+	public GObject_RefLists_Index reflist_index;
+
+	// variables for renderer use
+	public bool is_rendered = false;
+
+	public GObject() {
+		offset_x = 0f;
+		offset_y = 0f;
+		reflist_index = new GObject_RefLists_Index ();
+	}
+
 }
