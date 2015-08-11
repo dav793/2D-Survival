@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour {
 		DataSettings.world_size = 1000;
 		DataSettings.sector_size = 10;
 		DataSettings.world_side_sectors = DataSettings.world_size / DataSettings.sector_size;
-		DataSettings.tile_width = 32;
+		DataSettings.tile_width = 24;
 		DataSettings.within_range_radius = 20;
 		DataSettings.render_radius = 20;
 

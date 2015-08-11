@@ -7,7 +7,7 @@ public class GameCameraController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		adjustCamSize ();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +35,15 @@ public class GameCameraController : MonoBehaviour {
 
 		transform.position = new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, transform.position.z);
 
+		if (Input.GetKeyDown (KeyCode.P)) {
+			adjustCamSize();
+		}
+
+	}
+
+	private void adjustCamSize() {
+		Debug.Log ("Adjusting camera size to screen height: " + Screen.height);
+		gameObject.GetComponent<Camera> ().orthographicSize = Screen.height / 4;
 	}
 
 	private void moveTargetTemp(Vector3 direction) {
