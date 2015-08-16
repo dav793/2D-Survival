@@ -216,7 +216,7 @@ Prefab:
     - target: {fileID: 21231356, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 304bd23722b42fb45a93be36b1adb879,
+      objectReference: {fileID: 21300000, guid: 9b7968570baa1d54b90b4a7ff5d41fd3,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
@@ -396,6 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9e1d5180d55a1468a4d4a520063e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrain_sprite: {fileID: 0}
   terrain_material: {fileID: 2100000, guid: 372415e9ba212224881714e4f0c79a32, type: 2}
   grid_cells_x: 3
   grid_cells_y: 12
@@ -517,6 +518,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1634955651}
   - 114: {fileID: 1634955652}
+  - 114: {fileID: 1634955653}
   m_Layer: 0
   m_Name: ObjectRenderer
   m_TagString: Untagged
@@ -550,6 +552,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gobject: {fileID: 196954, guid: 12b28412cd60d3243b174dbbd25467c9, type: 2}
   gobjectHolder: {fileID: 1323438454}
+--- !u!114 &1634955653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1634955650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3da2fba0ff66c4298c45cd2bfb5ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  default_object: {fileID: 21300000, guid: cc8984b872c742b4bbbb4e76b744424c, type: 3}
+  small_crate: {fileID: 21300000, guid: 304bd23722b42fb45a93be36b1adb879, type: 3}
+  rock_item: {fileID: 21300000, guid: 381b60b628ad5a04c986657cb32aafe0, type: 3}
 --- !u!1 &1791345589 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 134174, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}

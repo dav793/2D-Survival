@@ -10,18 +10,34 @@ using System.Collections;
  */
 
 public class GObject {
-	public GTile tile;
-	public float offset_x;
-	public float offset_y;
-	public GObject_RefLists_Index reflist_index;
+	public float pos_x;
+	public float pos_y;
+	public GObjectType type;
 
 	// variables for renderer use
 	public bool is_rendered = false;
+	public GameObject renderedGameObject;
+	public Sprite sprite;
 
 	public GObject() {
-		offset_x = 0f;
-		offset_y = 0f;
-		reflist_index = new GObject_RefLists_Index ();
+		pos_x = 0f;
+		pos_y = 0f;					
+	}
+
+	public void placeAtPoint(Vector2 point) {
+		pos_x = point.x;
+		pos_y = point.y;
+	}
+
+	// procedures for renderer use
+	public void linkGameObject(GameObject gobject) {
+		renderedGameObject = gobject;
+		is_rendered = true;
+	}
+	
+	public void unlinkGameObject() {
+		renderedGameObject = null;
+		is_rendered = false;
 	}
 
 }

@@ -5,7 +5,7 @@ public class GTile {
 	public int index_x;
 	public int index_y;
 	public Biome biome;
-	public GObject_RefLists Contained_Objects; 
+	public GObject_Tile_RefList Contained_Objects; 
 
 	// variables for renderer use
 	public bool is_rendered = false;
@@ -15,7 +15,7 @@ public class GTile {
 		this.index_x = index_x;
 		this.index_y = index_y;
 		biome = BiomeData.tropical_forest;
-		Contained_Objects = new GObject_RefLists ();
+		Contained_Objects = new GObject_Tile_RefList (new Vector2(index_x, index_y));
 	}
 
 }

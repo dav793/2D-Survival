@@ -69,6 +69,32 @@ public class GameRenderer : MonoBehaviour {
 		ObjectUpdateQueues.getOperationQueue (operation).Enqueue(obj);
 	}
 
+	/*
+	 * Add operation on all objects in sector to a render update queue
+	 */
+	public void ScheduleUpdateOnSectorObjects(RenderObjectUpdateOperations operation, WorldSector sector) {
+
+		for (int x = sector.lower_boundary_x; x < sector.upper_boundary_x; ++x) {
+			for (int y = sector.lower_boundary_y; y < sector.upper_boundary_y; ++y) {
+				GTile tile = GameData.GData.getTile(new Vector2(x, y));
+				// schedule structures
+				for(int i = 0; i < tile.Contained_Objects.structures.all.count(); ++i) {
+					ScheduleObjectUpdate(operation, tile.Contained_Objects.structures.all.getObjectAt(i));
+				}
+				// schedule items
+				for(int i = 0; i < tile.Contained_Objects.items.all.count(); ++i) {
+					ScheduleObjectUpdate(operation, tile.Contained_Objects.items.all.getObjectAt(i));
+				}
+			}
+		}
+
+		// schedule actors
+		for (int i = 0; i < sector.Contained_Objects.actors.all.count(); ++i) {
+			ScheduleObjectUpdate(operation, sector.Contained_Objects.actors.all.getObjectAt(i));
+		}
+
+	}
+
 	private void adjustVisibleSectors() {
 
 		List<WorldSector> visible = GameData.GData.getSectorAreaRender ();
@@ -77,6 +103,7 @@ public class GameRenderer : MonoBehaviour {
 			if(!sectorIsContained(visible[i], renderedSectors) && !visible[i].is_rendered) {
 				//schedule creation of new sector
 				ScheduleTerrainUpdate(RenderTerrainUpdateOperations.CREATE, visible[i]);
+				ScheduleUpdateOnSectorObjects(RenderObjectUpdateOperations.CREATE, visible[i]);
 			}
 		}
 
@@ -84,6 +111,7 @@ public class GameRenderer : MonoBehaviour {
 			if(!sectorIsContained(renderedSectors[i], visible) && renderedSectors[i].is_rendered) {
 				//schedule destruction of old sector
 				ScheduleTerrainUpdate(RenderTerrainUpdateOperations.DESTROY, renderedSectors[i]);
+				ScheduleUpdateOnSectorObjects(RenderObjectUpdateOperations.DESTROY, renderedSectors[i]);
 			}
 		}
 
@@ -162,11 +190,15 @@ public class GameRenderer : MonoBehaviour {
 	 */
 
 	private void updateObjectCreate(GObject obj) {
-
+		if (!obj.is_rendered) {
+			rObject.setupObject (obj);
+		}
 	}
 
 	private void updateObjectDestroy(GObject obj) {
-
+		if (obj.is_rendered) {
+			rObject.discardObject (obj);
+		}
 	}
 
 	private void updateObjectPosition(GObject obj) {
@@ -209,7 +241,6 @@ public class GameRenderer : MonoBehaviour {
 	private void updateTerrainTint(WorldSector sector) {
 		
 	}
-
 	/*
 	 *	END OF RENDER UPDATE OPERATIONS 
 	 */

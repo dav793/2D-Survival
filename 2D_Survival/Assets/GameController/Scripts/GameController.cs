@@ -43,12 +43,12 @@ public class GameController : MonoBehaviour {
 	void Start () {
 
 		GameData_Settings DataSettings = new GameData_Settings ();			// 	< look for type definition in Types.cs
-		DataSettings.world_size = 1000;
-		DataSettings.sector_size = 10;
-		DataSettings.world_side_sectors = DataSettings.world_size / DataSettings.sector_size;
-		DataSettings.tile_width = 24;
-		DataSettings.within_range_radius = 20;
-		DataSettings.render_radius = 20;
+		DataSettings.world_size = 1000;																// in square tiles
+		DataSettings.sector_size = 10;																// in square tiles
+		DataSettings.world_side_sectors = DataSettings.world_size / DataSettings.sector_size;		// in square sectors
+		DataSettings.tile_width = 24;																// in pixels
+		DataSettings.within_range_radius = 20;														// in tiles
+		DataSettings.render_radius = 20;															// in tiles
 
 		GameData.GData.Init (DataSettings);
 		GameRenderer.GRenderer.Init ();

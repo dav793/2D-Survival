@@ -27,6 +27,7 @@ public class TerrainTextureIndex {
 
 public class TerrainTextureManager : MonoBehaviour {
 
+	public Sprite terrain_sprite;
 	public Material terrain_material;
 	public int grid_cells_x;
 	public int grid_cells_y;

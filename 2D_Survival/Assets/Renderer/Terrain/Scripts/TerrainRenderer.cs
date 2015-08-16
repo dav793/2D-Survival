@@ -29,14 +29,12 @@ public class TerrainRenderer : MonoBehaviour {
 			sector.index_y * sector_width,
 			0
 		);
-		sector.terrainGameObject = obj;
-		sector.is_rendered = true;
+		sector.linkGameObject (obj);
 	}
 
 	public void discardSector(WorldSector sector) {
 		discardTerrainObject (sector.terrainGameObject);
-		sector.terrainGameObject = null;
-		sector.is_rendered = false;
+		sector.unlinkGameObject ();
 	}
 
 	private GameObject getNewTerrainObject() {
@@ -50,6 +48,7 @@ public class TerrainRenderer : MonoBehaviour {
 
 	private void setupObject(GameObject obj, WorldSector sector) {
 		obj.GetComponent<MeshRenderer> ().material = texMan.terrain_material;
+		//obj.GetComponent<MeshRenderer> ().material.mainTexture = texMan.terrain_sprite.texture;
 		obj.GetComponent<MeshFilter> ().mesh = generateMesh (GameData.GData.data_settings.sector_size * GameData.GData.data_settings.sector_size, GameData.GData.data_settings.tile_width, sector);
 	}
 

@@ -13,9 +13,9 @@ public class GameCameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float speed = 1;
+		float speed = 1f;
 		if(Input.GetKey(KeyCode.LeftShift)) {
-			speed = 4;
+			speed = 2f;
 		}
 		if(Input.GetKey(KeyCode.W)) {
 			moveTargetTemp(Vector2.up*speed);
@@ -48,6 +48,7 @@ public class GameCameraController : MonoBehaviour {
 
 	private void moveTargetTemp(Vector3 direction) {
 		target.transform.position += direction;
+		target.transform.position = new Vector3 (Mathf.Round(target.transform.position.x), Mathf.Round(target.transform.position.y), Mathf.Round(target.transform.position.z));
 		GameData.FocusPoint = new Vector2(target.transform.position.x, target.transform.position.y);
 	}
 
