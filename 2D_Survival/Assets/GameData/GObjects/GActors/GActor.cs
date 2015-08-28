@@ -7,13 +7,31 @@ public class GActor : GObject {
 	public BOOL_YN environmental;
 	public BOOL_YN npc;
 
+	public bool idle;
+	public GBehaviour active_behaviour;
+
+	public float speed = 0.5f;
+
 	public GActor_RefList_Index reflist_index;
 
 	public GActor(BOOL_YN environmental, BOOL_YN npc) {
 		base.type = GObjectType.Actor;	
 		this.environmental = environmental;
 		this.npc = npc;
+		idle = true;
 		reflist_index = new GActor_RefList_Index ();
+	}
+
+	public override void setPosition(Vector2 point) {
+		removeFromSector ();
+		placeAtPoint (point);
+		addToSector (GameData.GData.getSectorFromWorldPoint (new Vector2 (pos_x, pos_y)));
+	}
+	
+	public override void setPosition(Vector2 sector_index, Vector2 offset) {
+		removeFromSector ();
+		placeAtPoint (GameData.GData.getSector (sector_index).getCenter(offset));
+		addToSector (GameData.GData.getSector (sector_index));
 	}
 
 	public void addToSector(WorldSector sector) {
@@ -39,6 +57,56 @@ public class GActor : GObject {
 			removeFromSector();
 		}
 		addToSector (sector);
+	}
+
+	public void setBehaviour(GBehaviour behaviour) {
+		active_behaviour = behaviour;
+		behaviour.owner = this;
+		idle = false;
+	}
+
+	public void clearBehaviour() {
+		idle = true;
+		active_behaviour = null;
+	}
+
+	public void performBehaviour() {
+		if (idle) {
+			idle = false;
+		}
+		active_behaviour.performBehaviour ();
+	}
+
+	public void moveTowards(Vector2 point) {
+
+		bool moved = false;
+
+		if (pos_x < point.x) {
+			pos_x += Mathf.Min(speed, point.x-pos_x);
+			moved = true;
+		} 
+		else {
+			if (pos_x > point.x) {
+				pos_x -= Mathf.Min(speed, pos_x-point.x);
+				moved = true;
+			}
+		}
+
+		if (pos_y < point.y) {
+			pos_y += Mathf.Min(speed, point.y-pos_y);
+			moved = true;
+		}
+		else {
+			if (pos_y > point.y) {
+				pos_y -= Mathf.Min(speed, pos_y-point.y);
+				moved = true;
+			}
+		}
+
+		if (moved) {
+			GameRenderer.GRenderer.ScheduleObjectUpdate(RenderObjectUpdateOperations.UPDATE_POSITION, this);
+		}
+
 	}
 
 }

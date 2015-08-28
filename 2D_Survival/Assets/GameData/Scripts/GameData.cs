@@ -33,6 +33,7 @@ public class GameData : MonoBehaviour {
 
 	public void Tick() {
 		adjustSectorsWithinRange ();
+		performActorBehaviours ();
 	}
 
 	public void Init(GameData_Settings data_settings) {
@@ -76,23 +77,60 @@ public class GameData : MonoBehaviour {
 
 		// TESTS
 		OBJ_SmallCrate crate = new OBJ_SmallCrate ();
-		crate.placeAtPoint (new Vector2(24, 24));
-		crate.addToTile (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)));
-		//crate.removeFromTile ();
+		crate.setPosition (new Vector2(3, 1), new Vector2(-5, 5));
+		//crate.setPosition (new Vector2(24, 24));
+
+
+
+		//GTile tl = getTileFromWorldPoint (new Vector2 (crate.pos_x, crate.pos_y));
+		//Debug.Log (tl.indexToString());
+		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
+		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).indexToString());
+		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).Contained_Objects.objectIsContained(crate));
+		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
+
+
 
 		OBJ_RockItem rock = new OBJ_RockItem ();
-		rock.placeAtPoint (new Vector2(48, 48));
-		rock.addToTile (getTileFromWorldPoint(new Vector2(rock.pos_x, rock.pos_y)));
+		rock.setPosition (new Vector2(2, 1), new Vector2(-5, 5));
+		//rock.setPosition (new Vector2(24, 24));
+
 
 		OBJ_Player player = new OBJ_Player ();
-		player.placeAtPoint (new Vector2(72, 72));
-		player.addToSector (getSectorFromWorldPoint(new Vector2(player.pos_x, player.pos_y)));
+		player.setPosition (new Vector2(0, 0), new Vector2(-50, -50));
+
+		List<Vector2> ppts = new List<Vector2> () { new Vector2(0,0), new Vector2(30,80), new Vector2(60,55), new Vector2(25,30) };
+		player.setBehaviour (new Behaviour_PatrolPoints(ppts));
+
+
+		OBJ_TropicalTree1 tree1 = new OBJ_TropicalTree1 ();
+		tree1.setPosition (new Vector2(0, 0), new Vector2(0, 0));
+
+		OBJ_PalmTree1 tree2 = new OBJ_PalmTree1 ();
+		tree2.setPosition (new Vector2(5, 3), new Vector2(0, 0));
+
+		OBJ_TropicalBush1 bush1 = new OBJ_TropicalBush1 ();
+		bush1.setPosition (new Vector2(1, 2), new Vector2(0, 0));
+
+		OBJ_TropicalBush2 bush2 = new OBJ_TropicalBush2 ();
+		bush2.setPosition (new Vector2(4, 4), new Vector2(0, 0));
 		// END TESTS
 
 	}
 
 	private void adjustSectorsWithinRange() {
 		sectorsWithinRange = getSectorArea (getSectorIndexesWithinRange(data_settings.within_range_radius));
+	}
+
+	private void performActorBehaviours() {
+		for (int i = 0; i < sectorsWithinRange.Count; ++i) {
+			for(int j = 0; j < sectorsWithinRange[i].Contained_Objects.actors.all.count(); ++j) {
+				GActor actor = sectorsWithinRange[i].Contained_Objects.actors.all.getObjectAt(j);
+				if(!actor.idle) {
+					actor.performBehaviour();
+				}
+			}
+		}
 	}
 
 	public WorldSector getSector(Vector2 indexes) {

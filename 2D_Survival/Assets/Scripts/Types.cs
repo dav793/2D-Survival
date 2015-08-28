@@ -16,7 +16,13 @@ public enum OperationMode { OUT_OF_CHARACTER_RANGE, WITHIN_CHARACTER_RANGE };
 
 public enum GObjectType { Structure, Actor, Item };
 
+public enum DepthLevel { TERRAIN, OBJECTS, OVERLAY, CAMERA };
+
 public enum BOOL_YN { YES, NO };
+
+public struct Prog_Settings {
+	public int zunits_per_level;
+};
 
 public struct GameData_Settings {
 	public int world_size;					// world side length in tiles
@@ -175,6 +181,9 @@ public class RefList_DataStructure<T> {
 	public T getObjectAt(int position) {
 		return data [position];
 	}
+	public bool findObject(T obj) {
+		return true;
+	}
 }
 
 public class GObject_Tile_RefList {
@@ -212,6 +221,18 @@ public class GObject_Tile_RefList {
 			break;
 		}
 	}
+	public bool objectIsContained(GObject obj) {
+		switch (obj.type) {
+		case GObjectType.Structure:
+			return structures.objectIsContained((GStructure)obj);
+		case GObjectType.Item:
+			return items.objectIsContained((GItem)obj);
+		default:
+			Debug.LogError("Invalid GObject type");
+			break;
+		}
+		return false;
+	}
 }
 
 public class GObject_Sector_RefList {
@@ -236,6 +257,15 @@ public class GObject_Sector_RefList {
 		else {
 			Debug.LogError ("Invalid GObject type");
 		}
+	}
+	public bool objectIsContained(GObject obj) {
+		if (obj.type == GObjectType.Actor) {
+			return actors.objectIsContained ((GActor)obj);
+		} 
+		else {
+			Debug.LogError ("Invalid GObject type");
+		}
+		return false;
 	}
 }
 
@@ -302,6 +332,14 @@ public class GObject_Structures_RefList {
 			environmental[(int)obj.environmental].getObjectAt(i).reflist_index.environmental--;
 		}
 	}
+	public bool objectIsContained(GStructure obj) {
+		for (int i = 0; i < all.count(); ++i) {
+			if(all.getObjectAt(i) == obj) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 public class GActor_RefList_Index {
@@ -352,6 +390,14 @@ public class GObject_Actors_RefList {
 			NPCs[(int)obj.npc].getObjectAt(i).reflist_index.NPCs--;
 		}
 	}
+	public bool objectIsContained(GActor obj) {
+		for (int i = 0; i < all.count(); ++i) {
+			if(all.getObjectAt(i) == obj) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 public class GItem_RefList_Index {
@@ -373,6 +419,14 @@ public class GObject_Items_RefList {
 		for (int i = obj.reflist_index.all; i < all.count(); ++i) {
 			all.getObjectAt(i).reflist_index.all--;
 		}
+	}
+	public bool objectIsContained(GItem obj) {
+		for (int i = 0; i < all.count(); ++i) {
+			if(all.getObjectAt(i) == obj) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

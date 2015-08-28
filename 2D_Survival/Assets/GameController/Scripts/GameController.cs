@@ -25,6 +25,7 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public static GameController GController;
+	public static Prog_Settings PSettings;
 	public static GameData_Settings DataSettings;
 
 	private bool game_started = false;				// this will be set to true once initialization is finished
@@ -38,11 +39,10 @@ public class GameController : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
-
-	// Use this for initialization
+	
 	void Start () {
 
-		GameData_Settings DataSettings = new GameData_Settings ();			// 	< look for type definition in Types.cs
+		DataSettings = new GameData_Settings ();			// 	< look for type definition in Types.cs
 		DataSettings.world_size = 1000;																// in square tiles
 		DataSettings.sector_size = 10;																// in square tiles
 		DataSettings.world_side_sectors = DataSettings.world_size / DataSettings.sector_size;		// in square sectors
@@ -50,15 +50,17 @@ public class GameController : MonoBehaviour {
 		DataSettings.within_range_radius = 20;														// in tiles
 		DataSettings.render_radius = 20;															// in tiles
 
+		PSettings = new Prog_Settings ();
+		PSettings.zunits_per_level = -3000;
+
 		GameData.GData.Init (DataSettings);
 		GameRenderer.GRenderer.Init ();
 
 		game_started = true;
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void FixedUpdate () {
 		if (game_started) {
 			Tick ();
 		}

@@ -19,11 +19,12 @@ public class ObjectRenderer : MonoBehaviour {
 
 	public void setupObject(GObject obj) {
 		GameObject robj = getNewGameObject ();
+		robj.GetComponent<GRObject> ().linked_gobject = obj;
 		robj.GetComponent<SpriteRenderer> ().sprite = obj.sprite;
 		robj.transform.position = new Vector3 (
-			obj.pos_x,
-			obj.pos_y,
-			0
+			(int)obj.pos_x,
+			(int)obj.pos_y,
+			GameRenderer.GRenderer.getZUnitsObject(obj.getPosition())
 		);
 		obj.linkGameObject (robj);
 	}
@@ -31,6 +32,14 @@ public class ObjectRenderer : MonoBehaviour {
 	public void discardObject(GObject obj) {
 		discardGameObject (obj.renderedGameObject);
 		obj.unlinkGameObject ();
+	}
+
+	public void updateObjectPosition(GObject obj) {
+		obj.renderedGameObject.transform.position = new Vector3(
+			(int)obj.pos_x,
+			(int)obj.pos_y,
+			GameRenderer.GRenderer.getZUnitsObject(obj.getPosition())
+		);
 	}
 
 	private void initObjectPool() {
@@ -51,6 +60,7 @@ public class ObjectRenderer : MonoBehaviour {
 	}
 	
 	private void discardGameObject(GameObject obj) {
+		obj.GetComponent<GRObject> ().linked_gobject = null;
 		objectPool.push (obj);
 	}
 

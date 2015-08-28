@@ -10,6 +10,7 @@ using System.Collections;
  */
 
 public class GObject {
+	public int object_index;
 	public float pos_x;
 	public float pos_y;
 	public GObjectType type;
@@ -22,6 +23,18 @@ public class GObject {
 	public GObject() {
 		pos_x = 0f;
 		pos_y = 0f;					
+	}
+
+	public virtual void setPosition(Vector2 point) {
+
+	}
+
+	public virtual void setPosition(Vector2 tile_index, Vector2 offset) {
+		
+	}
+
+	public Vector2 getPosition() {
+		return new Vector2 (pos_x, pos_y);
 	}
 
 	public void placeAtPoint(Vector2 point) {

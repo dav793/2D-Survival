@@ -18,4 +18,18 @@ public class GTile {
 		Contained_Objects = new GObject_Tile_RefList (new Vector2(index_x, index_y));
 	}
 
+	public Vector2 getCenter(Vector2 offset) {
+		Vector2 center = getCenter ();
+		return new Vector2 (center.x + offset.x, center.y + offset.y);
+	}
+
+	public Vector2 getCenter() {
+		return new Vector2 (GameData.GData.data_settings.tile_width * index_x + GameData.GData.data_settings.tile_width/2, 
+		                    GameData.GData.data_settings.tile_width * index_y + GameData.GData.data_settings.tile_width/2);
+	}
+
+	public string indexToString() {
+		return index_x + ", " + index_y;
+	}
+
 }

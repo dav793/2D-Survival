@@ -27,7 +27,7 @@ public class TerrainRenderer : MonoBehaviour {
 		obj.transform.position = new Vector3 (
 			sector.index_x * sector_width + sector_width,
 			sector.index_y * sector_width,
-			0
+			GameRenderer.GRenderer.getZUnitsTerrain()
 		);
 		sector.linkGameObject (obj);
 	}

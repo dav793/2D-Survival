@@ -16,6 +16,7 @@ public class GameRenderer : MonoBehaviour {
 	public static GameRenderer GRenderer;
 	public TerrainRenderer rTerrain;
 	public ObjectRenderer rObject;
+	public GameCameraController gameCamera;
 
 	private RendererObjectUpdateQueues ObjectUpdateQueues;
 	private RendererTerrainUpdateQueues TerrainUpdateQueues;
@@ -34,7 +35,7 @@ public class GameRenderer : MonoBehaviour {
 	}
 
 	public void Tick() {
-		adjustVisibleSectors ();
+		renderVisibleSectors ();
 		updateQueues ();
 	}
 
@@ -43,6 +44,7 @@ public class GameRenderer : MonoBehaviour {
 		initUpdateQueues ();
 		rTerrain.Init ();
 		rObject.Init ();
+		gameCamera.Init ();
 	}
 
 	private void updateQueues() {
@@ -95,7 +97,34 @@ public class GameRenderer : MonoBehaviour {
 
 	}
 
-	private void adjustVisibleSectors() {
+	public void ScheduleUpdateOnAllObjects(RenderObjectUpdateOperations operation) {
+		for (int i = 0; i < renderedSectors.Count; ++i) {
+			ScheduleUpdateOnSectorObjects(operation, renderedSectors[i]);
+		}
+	}
+
+	public int getZUnitsTerrain() {
+		return GameController.PSettings.zunits_per_level * (int)DepthLevel.TERRAIN;
+	}
+
+	public int getZUnitsObject(Vector2 position) {
+		int base_zunits = GameController.PSettings.zunits_per_level * (int)DepthLevel.OBJECTS;
+		Vector2 cam_offset = gameCamera.getDistanceFromCamCenter (position);
+		if(gameCamera.getCamSize()+100 >= cam_offset.x && gameCamera.getCamSize()+100 >= cam_offset.y) {		// object is within cam range
+			return base_zunits + (int)(gameCamera.getCamSize()+100) + gameCamera.getYOffsetFromCamCenter(Mathf.FloorToInt(position.y));
+		}
+		return base_zunits;
+	}
+
+	public int getZUnitsOverlay() {
+		return GameController.PSettings.zunits_per_level * (int)DepthLevel.OVERLAY;
+	}
+
+	public int getZUnitsCamera() {
+		return GameController.PSettings.zunits_per_level * (int)DepthLevel.CAMERA;
+	}
+
+	private void renderVisibleSectors() {
 
 		List<WorldSector> visible = GameData.GData.getSectorAreaRender ();
 
@@ -104,6 +133,10 @@ public class GameRenderer : MonoBehaviour {
 				//schedule creation of new sector
 				ScheduleTerrainUpdate(RenderTerrainUpdateOperations.CREATE, visible[i]);
 				ScheduleUpdateOnSectorObjects(RenderObjectUpdateOperations.CREATE, visible[i]);
+			}
+			else {
+				//schedule update of sectors
+
 			}
 		}
 
@@ -202,7 +235,9 @@ public class GameRenderer : MonoBehaviour {
 	}
 
 	private void updateObjectPosition(GObject obj) {
-
+		if (obj.is_rendered) {
+			rObject.updateObjectPosition (obj);
+		}
 	}
 
 	private void updateObjectBrightness(GObject obj) {

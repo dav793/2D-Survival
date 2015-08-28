@@ -357,6 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1791345589}
+  cam: {fileID: 0}
 --- !u!1 &843744805
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +476,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1333923510}
   - 114: {fileID: 1333923509}
+  - 114: {fileID: 1333923511}
   m_Layer: 0
   m_Name: Renderer
   m_TagString: Untagged
@@ -495,6 +497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rTerrain: {fileID: 1857245536}
   rObject: {fileID: 1634955652}
+  gameCamera: {fileID: 811085865}
 --- !u!4 &1333923510
 Transform:
   m_ObjectHideFlags: 0
@@ -509,6 +512,17 @@ Transform:
   - {fileID: 1634955651}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &1333923511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333923508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65165cb0a4f2da24eb1f56f6a29c2c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1634955650
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +580,12 @@ MonoBehaviour:
   default_object: {fileID: 21300000, guid: cc8984b872c742b4bbbb4e76b744424c, type: 3}
   small_crate: {fileID: 21300000, guid: 304bd23722b42fb45a93be36b1adb879, type: 3}
   rock_item: {fileID: 21300000, guid: 381b60b628ad5a04c986657cb32aafe0, type: 3}
+  tropical_tree_1: {fileID: 21300000, guid: 15770aa4d7bdfee488f713186a462f5f, type: 3}
+  tropical_tree_2: {fileID: 21300000, guid: 4b857f581ce0d24468cab5a30e216357, type: 3}
+  tropical_tree_3: {fileID: 21300000, guid: 0da67ec01fe824b428212cd6325f8712, type: 3}
+  large_tree_1: {fileID: 21300000, guid: 55ba23940d79e2742848c76eebc45a11, type: 3}
+  bush_1: {fileID: 21300000, guid: 92d01ab8a2700c74ea8d436c8754f930, type: 3}
+  bush_2: {fileID: 21300000, guid: 210e0a32538882a42aaec0fa0c3c96c7, type: 3}
 --- !u!1 &1791345589 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 134174, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}

@@ -11,6 +11,18 @@ public class GItem : GObject {
 		reflist_index = new GItem_RefList_Index ();
 	}
 
+	public override void setPosition(Vector2 point) {
+		removeFromTile ();
+		placeAtPoint (point);
+		addToTile (GameData.GData.getTileFromWorldPoint (new Vector2 (pos_x, pos_y)));
+	}
+	
+	public override void setPosition(Vector2 tile_index, Vector2 offset) {
+		removeFromTile ();
+		placeAtPoint (GameData.GData.getTile (tile_index).getCenter(offset));
+		addToTile (GameData.GData.getTile (tile_index));
+	}
+
 	public void addToTile(GTile tile) {
 		if (this.tile == null) {
 			// object does not belong to a tile
