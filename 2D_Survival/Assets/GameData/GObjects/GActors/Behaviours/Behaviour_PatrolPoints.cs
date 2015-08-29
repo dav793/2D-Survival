@@ -7,7 +7,7 @@ public class Behaviour_PatrolPoints : GBehaviour {
 	List<Vector2> patrol_points;
 	int current_point_objective;
 
-	int lim = 5000;
+	int lim = 2000;
 
 	public Behaviour_PatrolPoints(List<Vector2> points) {
 		patrol_points = points;

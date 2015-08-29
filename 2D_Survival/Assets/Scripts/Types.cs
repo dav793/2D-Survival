@@ -340,6 +340,12 @@ public class GObject_Structures_RefList {
 		}
 		return false;
 	}
+	public bool isEmpty() {
+		if (all.count () > 0) {
+			return false;
+		}
+		return true;
+	}
 }
 
 public class GActor_RefList_Index {
@@ -398,6 +404,12 @@ public class GObject_Actors_RefList {
 		}
 		return false;
 	}
+	public bool isEmpty() {
+		if (all.count () > 0) {
+			return false;
+		}
+		return true;
+	}
 }
 
 public class GItem_RefList_Index {
@@ -427,6 +439,12 @@ public class GObject_Items_RefList {
 			}
 		}
 		return false;
+	}
+	public bool isEmpty() {
+		if (all.count () > 0) {
+			return false;
+		}
+		return true;
 	}
 }
 

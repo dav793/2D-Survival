@@ -33,6 +33,10 @@ public class GObject {
 		
 	}
 
+	public virtual void setPosition(GTile tile, Vector2 offset) {
+	
+	}
+
 	public Vector2 getPosition() {
 		return new Vector2 (pos_x, pos_y);
 	}

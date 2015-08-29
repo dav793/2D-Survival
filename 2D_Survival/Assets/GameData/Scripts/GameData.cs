@@ -41,6 +41,54 @@ public class GameData : MonoBehaviour {
 
 		FocusPoint = Vector2.zero;
 
+		setupDataStructures ();
+		WorldMachine.WMachine.Init ();
+		WorldMachine.WMachine.generator.generateScenery ();
+
+		// TESTS
+		OBJ_SmallCrate crate = new OBJ_SmallCrate ();
+		crate.setPosition (new Vector2(3, 1), new Vector2(0, 0));
+		//crate.setPosition (new Vector2(24, 24));
+
+
+
+		//GTile tl = getTileFromWorldPoint (new Vector2 (crate.pos_x, crate.pos_y));
+		//Debug.Log (tl.indexToString());
+		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
+		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).indexToString());
+		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).Contained_Objects.objectIsContained(crate));
+		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
+
+
+
+		OBJ_RockItem rock = new OBJ_RockItem ();
+		rock.setPosition (new Vector2(2, 1), new Vector2(0, 0));
+		//rock.setPosition (new Vector2(24, 24));
+
+
+		OBJ_Player player = new OBJ_Player ();
+		player.setPosition (new Vector2(0, 0), new Vector2(-50, -50));
+
+		List<Vector2> ppts = new List<Vector2> () { new Vector2(0,0), new Vector2(30,80), new Vector2(60,55), new Vector2(25,30) };
+		player.setBehaviour (new Behaviour_PatrolPoints(ppts));
+
+
+		/*OBJ_TropicalTree1 tree1 = new OBJ_TropicalTree1 ();
+		tree1.setPosition (new Vector2(0, 0), new Vector2(0, 0));
+
+		OBJ_PalmTree1 tree2 = new OBJ_PalmTree1 ();
+		tree2.setPosition (new Vector2(5, 3), new Vector2(0, 0));
+
+		OBJ_TropicalBush1 bush1 = new OBJ_TropicalBush1 ();
+		bush1.setPosition (new Vector2(1, 2), new Vector2(0, 0));
+
+		OBJ_TropicalBush2 bush2 = new OBJ_TropicalBush2 ();
+		bush2.setPosition (new Vector2(4, 4), new Vector2(0, 0));*/
+		// END TESTS
+
+	}
+
+	private void setupDataStructures() {
 		// init tiles
 		worldTiles = new GTile[data_settings.world_size, data_settings.world_size];
 		for (int x = 0; x < data_settings.world_size; ++x) {
@@ -53,7 +101,7 @@ public class GameData : MonoBehaviour {
 				/* end test */
 			}
 		}
-
+		
 		// init sectors
 		sectorsWithinRange = new List<WorldSector> ();
 		if (data_settings.world_size % data_settings.sector_size != 0) {
@@ -70,52 +118,10 @@ public class GameData : MonoBehaviour {
 						x * data_settings.sector_size + data_settings.sector_size,
 						y * data_settings.sector_size,
 						y * data_settings.sector_size + data_settings.sector_size
-					);
+						);
 				}
 			}
 		}
-
-		// TESTS
-		OBJ_SmallCrate crate = new OBJ_SmallCrate ();
-		crate.setPosition (new Vector2(3, 1), new Vector2(-5, 5));
-		//crate.setPosition (new Vector2(24, 24));
-
-
-
-		//GTile tl = getTileFromWorldPoint (new Vector2 (crate.pos_x, crate.pos_y));
-		//Debug.Log (tl.indexToString());
-		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
-		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).indexToString());
-		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).Contained_Objects.objectIsContained(crate));
-		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
-
-
-
-		OBJ_RockItem rock = new OBJ_RockItem ();
-		rock.setPosition (new Vector2(2, 1), new Vector2(-5, 5));
-		//rock.setPosition (new Vector2(24, 24));
-
-
-		OBJ_Player player = new OBJ_Player ();
-		player.setPosition (new Vector2(0, 0), new Vector2(-50, -50));
-
-		List<Vector2> ppts = new List<Vector2> () { new Vector2(0,0), new Vector2(30,80), new Vector2(60,55), new Vector2(25,30) };
-		player.setBehaviour (new Behaviour_PatrolPoints(ppts));
-
-
-		OBJ_TropicalTree1 tree1 = new OBJ_TropicalTree1 ();
-		tree1.setPosition (new Vector2(0, 0), new Vector2(0, 0));
-
-		OBJ_PalmTree1 tree2 = new OBJ_PalmTree1 ();
-		tree2.setPosition (new Vector2(5, 3), new Vector2(0, 0));
-
-		OBJ_TropicalBush1 bush1 = new OBJ_TropicalBush1 ();
-		bush1.setPosition (new Vector2(1, 2), new Vector2(0, 0));
-
-		OBJ_TropicalBush2 bush2 = new OBJ_TropicalBush2 ();
-		bush2.setPosition (new Vector2(4, 4), new Vector2(0, 0));
-		// END TESTS
-
 	}
 
 	private void adjustSectorsWithinRange() {

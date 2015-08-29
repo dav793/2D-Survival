@@ -23,6 +23,12 @@ public class GItem : GObject {
 		addToTile (GameData.GData.getTile (tile_index));
 	}
 
+	public override void setPosition(GTile tile, Vector2 offset) {
+		removeFromTile ();
+		placeAtPoint (tile.getCenter(offset));
+		addToTile (tile);
+	}
+
 	public void addToTile(GTile tile) {
 		if (this.tile == null) {
 			// object does not belong to a tile
