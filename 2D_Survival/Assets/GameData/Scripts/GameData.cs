@@ -35,7 +35,7 @@ public class GameData : MonoBehaviour {
 	public void Tick() {
 		adjustSectorsWithinRange ();
 		performActorBehaviours ();
-		updateCamFocusPoint ();
+		updateFocusPoint ();
 	}
 
 	public void Init(GameData_Settings data_settings) {
@@ -65,13 +65,19 @@ public class GameData : MonoBehaviour {
 
 
 		active_player = new OBJ_Player ();
-		active_player.setPosition (new Vector2(50,50));
+		active_player.setPosition (new Vector2(200,200));
 		//active_player.setPosition (getTile(new Vector2(0,0)).getCenter());
 
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 3; ++i) {
 			GCharacter charac = new GCharacter ();
 			charac.setPosition (new Vector2(200+UnityEngine.Random.Range(-100, 100), 200+UnityEngine.Random.Range(-100, 100)));
 			charac.setBehaviour (new Behaviour_PaceRandomly());
+		}
+
+		for (int i = 0; i < 8; ++i) {
+			OBJ_Rabbit bunny = new OBJ_Rabbit ();
+			bunny.setPosition (new Vector2(200+UnityEngine.Random.Range(-100, 100), 200+UnityEngine.Random.Range(-100, 100)));
+			bunny.setBehaviour (new Behaviour_PaceRandomly());
 		}
 		// END TESTS
 
@@ -194,7 +200,7 @@ public class GameData : MonoBehaviour {
 		return world_point;
 	}
 
-	void updateCamFocusPoint() {
+	void updateFocusPoint() {
 		if (active_player != null) {
 			FocusPoint = new Vector2 (active_player.pos_x, active_player.pos_y);
 		}

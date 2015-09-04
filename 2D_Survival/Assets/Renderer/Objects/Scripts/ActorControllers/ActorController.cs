@@ -32,6 +32,14 @@ public class ActorController : MonoBehaviour {
 		if (vec != Vector2.zero) {		// if it has moved
 			stall = 4;
 			// set movement direction
+			if(vec.y != 0) {
+				if(vec.y < 0) {
+					movement_direction = MovDirections.Down; // (1)
+				}
+				else if(vec.y > 0) {
+					movement_direction = MovDirections.Up; // (2)
+				}
+			}
 			if(vec.x != 0) {
 				movement_direction = MovDirections.Sides; // (0)
 				if(vec.x > 0 && !facingRight) {
@@ -39,14 +47,6 @@ public class ActorController : MonoBehaviour {
 				}
 				else if(vec.x < 0 && facingRight) {
 					FlipH ();
-				}
-			}
-			if(vec.y != 0) {
-				if(vec.y < 0) {
-					movement_direction = MovDirections.Down; // (1)
-				}
-				else if(vec.y > 0) {
-					movement_direction = MovDirections.Up; // (2)
 				}
 			}
 			anim.SetFloat ("MovDirection", (int)movement_direction);

@@ -7,6 +7,7 @@ public class AnimationControllers : MonoBehaviour {
 
 	public RuntimeAnimatorController player;
 	public RuntimeAnimatorController character;
+	public RuntimeAnimatorController animal;
 
 	public void Awake() {
 		AnimControllers = this;

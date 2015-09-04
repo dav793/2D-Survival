@@ -162,10 +162,19 @@ public class ObjectRenderer : MonoBehaviour {
 					return AnimationControllers.AnimControllers.character;
 				}
 				else {
-					//Its just a regular actor
-					controller = gobj.renderedGameObject.AddComponent<ActorController> ();
-					controller.linkActor(act);
-					return null;
+					//Check if gobject is an animal
+					GAnimal animal = act as GAnimal;
+					if(animal != null) {
+						controller = gobj.renderedGameObject.AddComponent<AnimalController> ();
+						controller.linkActor(act);
+						return AnimationControllers.AnimControllers.animal;
+					}
+					else {
+						//Its just a regular actor
+						controller = gobj.renderedGameObject.AddComponent<ActorController> ();
+						controller.linkActor(act);
+						return null;
+					}
 				}
 			}
 		} 

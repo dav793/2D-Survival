@@ -211,7 +211,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 431986, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 21231356, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
       propertyPath: m_Sprite
@@ -661,6 +661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 9100000, guid: 09a1e4d3bea75af4c853dff848fb1865, type: 2}
   character: {fileID: 9100000, guid: f20084a3080448f4fb3a1c4af8139b1f, type: 2}
+  animal: {fileID: 9100000, guid: e1a218d1ea7ce0e469e2a32ad28998a5, type: 2}
 --- !u!1 &1791345589 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 134174, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
