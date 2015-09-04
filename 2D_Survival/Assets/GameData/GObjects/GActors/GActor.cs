@@ -7,10 +7,10 @@ public class GActor : GObject {
 	public BOOL_YN environmental;
 	public BOOL_YN npc;
 
+	public float max_speed = 1f;
+
 	public bool idle;
 	public GBehaviour active_behaviour;
-
-	public float speed = 0.5f;
 
 	public GActor_RefList_Index reflist_index;
 
@@ -78,31 +78,42 @@ public class GActor : GObject {
 	}
 
 	public void moveTowards(Vector2 point) {
+		Vector2 mov_vector = new Vector2 (0, 0);
+		if (point.x > pos_x) {
+			mov_vector.x += Mathf.Abs(point.x-pos_x);
+		} 
+		else if (point.x < pos_x) {
+			mov_vector.x -= Mathf.Abs(point.x-pos_x);
+		}
+		if (point.y > pos_y) {
+			mov_vector.y += Mathf.Abs(point.y-pos_y);
+		} 
+		else if (point.y < pos_y) {
+			mov_vector.y -= Mathf.Abs(point.y-pos_y);
+		}
+		moveBy (mov_vector);
+	}
+
+	public void moveBy(Vector2 mov_vector) {
+
+		Vector2 corrected_mov = new Vector2 (Mathf.Min( Mathf.Abs(mov_vector.x), max_speed ), Mathf.Min( Mathf.Abs(mov_vector.y), max_speed ));
+		if (mov_vector.x < 0) {
+			corrected_mov.x *= -1;
+		}
+		if (mov_vector.y < 0) {
+			corrected_mov.y *= -1;
+		}
 
 		bool moved = false;
-
-		if (pos_x < point.x) {
-			pos_x += Mathf.Min(speed, point.x-pos_x);
-			moved = true;
-		} 
-		else {
-			if (pos_x > point.x) {
-				pos_x -= Mathf.Min(speed, pos_x-point.x);
-				moved = true;
-			}
-		}
-
-		if (pos_y < point.y) {
-			pos_y += Mathf.Min(speed, point.y-pos_y);
+		if (corrected_mov.x != 0) {
+			pos_x += corrected_mov.x;
 			moved = true;
 		}
-		else {
-			if (pos_y > point.y) {
-				pos_y -= Mathf.Min(speed, pos_y-point.y);
-				moved = true;
-			}
+		if (corrected_mov.y != 0) {
+			pos_y += corrected_mov.y;
+			moved = true;
 		}
-
+		
 		if (moved) {
 			GameRenderer.GRenderer.ScheduleObjectUpdate(RenderObjectUpdateOperations.UPDATE_POSITION, this);
 		}

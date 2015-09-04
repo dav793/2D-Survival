@@ -10,12 +10,13 @@ public class GameCameraController : MonoBehaviour {
 	int camDepth = -5000;
 	Vector3 last_position = Vector2.zero;
 
+	float smoothTime = 0.3f;
+	Vector3 velocity = Vector3.zero;
+
 	public void Init() {
 		camDepth = GameRenderer.GRenderer.getZUnitsCamera ();
 		cam = GetComponent<Camera> ();
 		cam.farClipPlane = Mathf.Abs(camDepth) + 100;
-
-		target.transform.position = new Vector3(target.transform.position.x, target.transform.position.y, GameRenderer.GRenderer.getZUnitsOverlay());
 	}
 
 	public Vector2 getDistanceFromCamCenter(Vector2 world_point) {
@@ -41,29 +42,28 @@ public class GameCameraController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		float speed = 1f;
+		/*float speed = 1f;
 		if(Input.GetKey(KeyCode.LeftShift)) {
 			speed = 2f;
 		}
-		if(Input.GetKey(KeyCode.W)) {
+		if(Input.GetKey(KeyCode.UpArrow)) {
 			moveTargetTemp(Vector2.up*speed);
 		}
-		if(Input.GetKey(KeyCode.W)) {
-			moveTargetTemp(Vector2.up*speed);
-		}
-		if(Input.GetKey(KeyCode.A)) {
+		if(Input.GetKey(KeyCode.LeftArrow)) {
 			moveTargetTemp(Vector2.right*-1*speed);
 		}
-		if(Input.GetKey(KeyCode.S)) {
+		if(Input.GetKey(KeyCode.DownArrow)) {
 			moveTargetTemp(Vector2.up*-1*speed);
 		}
-		if(Input.GetKey(KeyCode.D)) {
+		if(Input.GetKey(KeyCode.RightArrow)) {
 			moveTargetTemp(Vector2.right*speed);
-		}
+		}*/
 
-		transform.position = new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, camDepth);
+		Vector3 targetPosition = new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, camDepth);
+		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+		//transform.position = new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, camDepth);
+
 		if(last_position != transform.position) {		// camera position changed
-			//GameRenderer.GRenderer.ScheduleUpdateOnAllObjects(RenderObjectUpdateOperations.UPDATE_POSITION);
 			GRenderEventManager.TriggerEvent("CamPositionChange");
 			last_position = transform.position;
 		}
@@ -106,12 +106,6 @@ public class GameCameraController : MonoBehaviour {
 		}
 		gameObject.GetComponent<Camera> ().orthographicSize = Screen.height / zoom_coeficient;
 		GRenderEventManager.TriggerEvent("CamPositionChange");
-	}
-
-	private void moveTargetTemp(Vector3 direction) {
-		target.transform.position += direction;
-		target.transform.position = new Vector3 (Mathf.Round(target.transform.position.x), Mathf.Round(target.transform.position.y), Mathf.Round(target.transform.position.z));
-		GameData.FocusPoint = new Vector2(target.transform.position.x, target.transform.position.y);
 	}
 
 }

@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum CardinalDirections { None, N, NE, E, SE, S, SW, W, NW };
+
+public enum MovDirections { Sides, Up, Down };
+
 public enum BiomeTypes { TropicalForest, ConiferousForest, Desert, AbandonedSettlement };
 
 public enum TileVertices { topLeft, topRight, bottomRight, bottomLeft };

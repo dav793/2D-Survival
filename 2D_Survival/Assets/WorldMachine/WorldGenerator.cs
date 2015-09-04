@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WorldGenerator {
 
 	public void generateScenery() {
 
-		int objs = 700;
+		List<GObject> bushes = new List<GObject>() {new OBJ_TropicalBush1(), new OBJ_TropicalBush2()};
+		List<GObject> trees = new List<GObject>() {new OBJ_TropicalTree1(), new OBJ_PalmTree1()};
+
+		int objs = 1000;
 		while (objs > 0) {
 
 			Vector2 selected_tile_index = new Vector2(UnityEngine.Random.Range(0, 50), UnityEngine.Random.Range(0, 50));
@@ -13,23 +17,18 @@ public class WorldGenerator {
 			if(selected_tile.Contained_Objects.structures.isEmpty()) {
 
 				GObject veg = null;
-				int veg_index = UnityEngine.Random.Range(0, 4);
-				switch(veg_index) {
-					case 0:
-						veg = new OBJ_TropicalTree1();
-						break;
-					case 1:
-						veg = new OBJ_PalmTree1();
-						break;
-					case 2:
-						veg = new OBJ_TropicalBush1();
-						break;
-					case 3:
-						veg = new OBJ_TropicalBush2();
-						break;
+				int vegType = UnityEngine.Random.Range(0, 100);
+
+				if(vegType >= 0 && vegType < 20) {
+					veg = getRandomTree();
+				} 
+
+				if(vegType >= 20 && vegType < 100) {
+					veg = getRandomBush();
 				}
+
 				if(veg != null) {
-					veg.setPosition (selected_tile, new Vector2(UnityEngine.Random.Range(-10,10), UnityEngine.Random.Range(-10,10)));
+					veg.setPosition (selected_tile, new Vector2(UnityEngine.Random.Range(-7,7), UnityEngine.Random.Range(-7,7)));
 					objs--;
 				}
 
@@ -37,6 +36,36 @@ public class WorldGenerator {
 
 		}
 
+	}
+
+	GObject getRandomBush() {
+		GObject veg = null;
+		int vegType = UnityEngine.Random.Range(0, 100);
+		if(vegType >= 0 && vegType < 20) {
+			veg = new OBJ_TropicalBush1();
+		} 
+		if(vegType >= 20 && vegType < 55) {
+			veg = new OBJ_TropicalBush2();
+		}
+		if(vegType >= 55 && vegType < 100) {
+			veg = new OBJ_TropicalBush3();
+		}
+		return veg;
+	}
+
+	GObject getRandomTree() {
+		GObject veg = null;
+		int vegType = UnityEngine.Random.Range(0, 100);
+		if(vegType >= 0 && vegType < 20) {
+			veg = new OBJ_TropicalTree2();
+		} 
+		if(vegType >= 20 && vegType < 70) {
+			veg = new OBJ_PalmTree1();
+		} 
+		if(vegType >= 70 && vegType < 100) {
+			veg = new OBJ_TropicalTree1();
+		}
+		return veg;
 	}
 
 }

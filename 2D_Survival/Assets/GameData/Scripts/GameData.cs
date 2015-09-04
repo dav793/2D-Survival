@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 /*
- *	GameData class:
- *		Contains all data for world simulation, and operates the data every tick to reflect time progression.
- *		It is our model of the game world, in which the world and all of its constituents are represented.
- *		Its data reflects the state of the world as of the current tick. 
- *		It is not concerned with rendering, it only works on a conceptual world simulation.
+ 	Class: GameData
+ 	Contains all data for world simulation, and operates the data every tick to reflect time progression.
+ 	It is our model of the game world, in which the world and all of its constituents are represented.
+ 	Its data reflects the state of the world as of the current tick. 
+ 	It is not concerned with rendering, it only works on a conceptual world simulation.
  */
 
 public class GameData : MonoBehaviour {
@@ -20,6 +20,7 @@ public class GameData : MonoBehaviour {
 	private List<WorldSector> sectorsWithinRange;
 
 	public GameData_Settings data_settings;
+	public OBJ_Player active_player;
 	
 	void Awake() {
 		if (GData == null) {
@@ -34,6 +35,7 @@ public class GameData : MonoBehaviour {
 	public void Tick() {
 		adjustSectorsWithinRange ();
 		performActorBehaviours ();
+		updateCamFocusPoint ();
 	}
 
 	public void Init(GameData_Settings data_settings) {
@@ -50,8 +52,6 @@ public class GameData : MonoBehaviour {
 		crate.setPosition (new Vector2(3, 1), new Vector2(0, 0));
 		//crate.setPosition (new Vector2(24, 24));
 
-
-
 		//GTile tl = getTileFromWorldPoint (new Vector2 (crate.pos_x, crate.pos_y));
 		//Debug.Log (tl.indexToString());
 		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
@@ -59,31 +59,20 @@ public class GameData : MonoBehaviour {
 		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).Contained_Objects.objectIsContained(crate));
 		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
 
-
-
 		OBJ_RockItem rock = new OBJ_RockItem ();
 		rock.setPosition (new Vector2(2, 1), new Vector2(0, 0));
 		//rock.setPosition (new Vector2(24, 24));
 
 
-		OBJ_Player player = new OBJ_Player ();
-		player.setPosition (new Vector2(0, 0), new Vector2(-50, -50));
+		active_player = new OBJ_Player ();
+		active_player.setPosition (new Vector2(50,50));
+		//active_player.setPosition (getTile(new Vector2(0,0)).getCenter());
 
-		List<Vector2> ppts = new List<Vector2> () { new Vector2(0,0), new Vector2(30,80), new Vector2(60,55), new Vector2(25,30) };
-		player.setBehaviour (new Behaviour_PatrolPoints(ppts));
-
-
-		/*OBJ_TropicalTree1 tree1 = new OBJ_TropicalTree1 ();
-		tree1.setPosition (new Vector2(0, 0), new Vector2(0, 0));
-
-		OBJ_PalmTree1 tree2 = new OBJ_PalmTree1 ();
-		tree2.setPosition (new Vector2(5, 3), new Vector2(0, 0));
-
-		OBJ_TropicalBush1 bush1 = new OBJ_TropicalBush1 ();
-		bush1.setPosition (new Vector2(1, 2), new Vector2(0, 0));
-
-		OBJ_TropicalBush2 bush2 = new OBJ_TropicalBush2 ();
-		bush2.setPosition (new Vector2(4, 4), new Vector2(0, 0));*/
+		for (int i = 0; i < 6; ++i) {
+			GCharacter charac = new GCharacter ();
+			charac.setPosition (new Vector2(200+UnityEngine.Random.Range(-100, 100), 200+UnityEngine.Random.Range(-100, 100)));
+			charac.setBehaviour (new Behaviour_PaceRandomly());
+		}
 		// END TESTS
 
 	}
@@ -128,7 +117,7 @@ public class GameData : MonoBehaviour {
 		sectorsWithinRange = getSectorArea (getSectorIndexesWithinRange(data_settings.within_range_radius));
 	}
 
-	private void performActorBehaviours() {
+	private void performActorBehaviours() { // to be moved to ai section
 		for (int i = 0; i < sectorsWithinRange.Count; ++i) {
 			for(int j = 0; j < sectorsWithinRange[i].Contained_Objects.actors.all.count(); ++j) {
 				GActor actor = sectorsWithinRange[i].Contained_Objects.actors.all.getObjectAt(j);
@@ -203,6 +192,12 @@ public class GameData : MonoBehaviour {
 			tile_indexes.y * data_settings.tile_width
 		);
 		return world_point;
+	}
+
+	void updateCamFocusPoint() {
+		if (active_player != null) {
+			FocusPoint = new Vector2 (active_player.pos_x, active_player.pos_y);
+		}
 	}
 
 }

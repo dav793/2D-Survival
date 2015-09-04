@@ -218,6 +218,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 9b7968570baa1d54b90b4a7ff5d41fd3,
         type: 3}
+    - target: {fileID: 134174, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}
   m_IsPrefabParent: 0
@@ -230,6 +234,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 784694861}
   - 114: {fileID: 784694860}
+  - 114: {fileID: 784694862}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -260,6 +265,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &784694862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 784694859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938fb8de6104e964ca569f34c4c09bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UP: 0
+  RIGHT: 0
+  DOWN: 0
+  LEFT: 0
 --- !u!1 &811085859
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +593,7 @@ GameObject:
   - 4: {fileID: 1634955651}
   - 114: {fileID: 1634955652}
   - 114: {fileID: 1634955653}
+  - 114: {fileID: 1634955654}
   m_Layer: 0
   m_Name: ObjectRenderer
   m_TagString: Untagged
@@ -623,9 +644,23 @@ MonoBehaviour:
   tropical_tree_1: {fileID: 21300000, guid: 15770aa4d7bdfee488f713186a462f5f, type: 3}
   tropical_tree_2: {fileID: 21300000, guid: 4b857f581ce0d24468cab5a30e216357, type: 3}
   tropical_tree_3: {fileID: 21300000, guid: 0da67ec01fe824b428212cd6325f8712, type: 3}
-  large_tree_1: {fileID: 21300000, guid: 55ba23940d79e2742848c76eebc45a11, type: 3}
-  bush_1: {fileID: 21300000, guid: 92d01ab8a2700c74ea8d436c8754f930, type: 3}
-  bush_2: {fileID: 21300000, guid: 210e0a32538882a42aaec0fa0c3c96c7, type: 3}
+  large_tree_1: {fileID: 21300000, guid: 197af42ad9956314394029417ef65af0, type: 3}
+  bush_1: {fileID: 21300000, guid: 947608a0e9ece78488d53fdfd9cf798d, type: 3}
+  bush_2: {fileID: 21300000, guid: 6aca468732f0689489a0a5ff668476c1, type: 3}
+  bush_3: {fileID: 21300000, guid: a8a773226e7f0b34c88074f348397071, type: 3}
+--- !u!114 &1634955654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1634955650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e206c361d26bc4087f579a111f478b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 9100000, guid: 09a1e4d3bea75af4c853dff848fb1865, type: 2}
+  character: {fileID: 9100000, guid: f20084a3080448f4fb3a1c4af8139b1f, type: 2}
 --- !u!1 &1791345589 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 134174, guid: c7ecc8969f959a341a7e14f5db7de969, type: 2}

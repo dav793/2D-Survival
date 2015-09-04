@@ -9,4 +9,9 @@ public class GBehaviour {
 
 	}
 
+	public virtual void stopBehaviour() {
+		Debug.Log ("I have completed my behaviour");
+		owner.clearBehaviour();
+	}
+
 }

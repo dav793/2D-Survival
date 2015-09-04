@@ -21,7 +21,9 @@ public class GRObject : MonoBehaviour {
 	}
 	
 	void updateZPos() {
-		GameRenderer.GRenderer.rObject.updateObjectPosition(linked_gobject);
+		if (linked_gobject != null) {
+			GameRenderer.GRenderer.rObject.updateObjectPosition (linked_gobject);
+		}
 	}
 
 }

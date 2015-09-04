@@ -20,8 +20,7 @@ public class Behaviour_PatrolPoints : GBehaviour {
 			lim--;
 		} 
 		else {
-			Debug.Log ("I have completed my behaviour");
-			owner.clearBehaviour();
+			stopBehaviour();
 		}
 	}
 
@@ -33,7 +32,7 @@ public class Behaviour_PatrolPoints : GBehaviour {
 	void checkPointReached() {
 		Vector2 pos = owner.getPosition();
 		if (pos.x == patrol_points [current_point_objective].x && pos.y == patrol_points [current_point_objective].y) {
-			// point reached
+			// point reached, set new point
 			if(current_point_objective < patrol_points.Count-1) {
 				current_point_objective++;
 			}

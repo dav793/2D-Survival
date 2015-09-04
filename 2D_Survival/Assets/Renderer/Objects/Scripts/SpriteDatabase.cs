@@ -15,6 +15,7 @@ public class SpriteDatabase : MonoBehaviour {
 	public Sprite large_tree_1;
 	public Sprite bush_1;
 	public Sprite bush_2;
+	public Sprite bush_3;
 
 	public void Awake() {
 		sprites = this;

@@ -3,24 +3,11 @@ using System.Collections;
 
 
 /*
- * 	Hierarchic structure of major game components:
- * 
- * 								 GameController
- * 									   |
- * 					+------------------+------------------+
- * 					|			 		 			 	  |					   	   		 
- * 			 	GameData	 			   	   		GameRenderer		 		  
- * 					 								 	  |					  			 
- * 											 	  +-------+-------+			
- * 											 	  |				  |
- * 	    								   TerrainRenderer	 ObjectRenderer
- * 
- * 
- * 	GameController class:
- * 		Directs progression of game program. Sets up itself and all other parts of the game structure, and directs game tick progression.
- * 		It is intended to be the single most high-level entry point to the application, all other parts branch down from here.
- * 
- */
+  	Class: GameController
+  	Directs progression of game program. Sets up itself and all other parts of the game structure, and directs game tick progression.
+  	It is intended to be the single highest-level entry point to the application, all other parts branch down from here.
+
+*/
 
 public class GameController : MonoBehaviour {
 

@@ -2,11 +2,13 @@
 using System.Collections;
 
 /*
- *	GObject class:
- *		A GObject can be one of the following elements:
+ *	Class: GObject
+ *		GObject is a base class for the following objects:
  *			-GObject_Structure
  *			-GObject_Actor
  *			-GObject_Item
+ *
+ *		This is the most basic definition of a gobject, and every gobject must extend from this class
  */
 
 public class GObject {
