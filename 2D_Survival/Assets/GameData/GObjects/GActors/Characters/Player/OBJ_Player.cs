@@ -10,4 +10,9 @@ public class OBJ_Player : GCharacter {
 		max_speed = 1f;
 	}
 
+	public OBJ_Player(string gameObject_name) : base(OBJ_Player.environmental, OBJ_Player.npc) {
+		gameObjectName = gameObject_name;
+		max_speed = 6f;
+	}
+
 }

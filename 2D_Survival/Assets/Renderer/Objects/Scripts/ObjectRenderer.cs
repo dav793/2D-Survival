@@ -11,8 +11,9 @@ public class ObjectRenderer : MonoBehaviour {
 	public GameObject gobject;
 	public GameObject gobjectHolder;
 
-	private GameObjectPool objectPool;
-	
+	GameObjectPool objectPool;
+	string unassigned_go_name = "Unassigned Object";
+
 	public void Init() {
 		initObjectPool ();
 	}
@@ -31,6 +32,7 @@ public class ObjectRenderer : MonoBehaviour {
 	public void setupObject(GObject obj) {
 		GameObject robj = getNewGameObject ();
 		obj.linkGameObject (robj);
+		robj.name = obj.gameObjectName;
 		robj.GetComponent<GRObject> ().linked_gobject = obj;
 		robj.GetComponent<SpriteRenderer> ().sprite = obj.sprite;
 		robj.GetComponent<Animator> ().runtimeAnimatorController = getAnimationController (obj);
@@ -39,6 +41,9 @@ public class ObjectRenderer : MonoBehaviour {
 			(int)obj.pos_y,
 			GameRenderer.GRenderer.getZUnitsObject(obj.getPosition())
 		);
+
+		//TESTS
+		TestUtils.active_r_objs++;
 	}
 
 	/*
@@ -88,7 +93,8 @@ public class ObjectRenderer : MonoBehaviour {
 	 * 
 	 * 	Returns: void
 	 * 
-	 * 	Initializes the <objectPool> with 2048 new instances of <gobject>
+	 * 	Initializes the <objectPool> with new instances of <gobject>, which is the GameObject prefab used to visualize GObjects
+	 *  in the worldspace.
 	 */
 	void initObjectPool() {
 		// Destroy any previous objects
@@ -99,7 +105,7 @@ public class ObjectRenderer : MonoBehaviour {
 		children.ForEach (child => Destroy(child));
 		
 		// Initialize GObject pool
-		objectPool = new GameObjectPool (gobject, 4084, gobjectHolder);
+		objectPool = new GameObjectPool (gobject, unassigned_go_name, GameController.RendererSettings.gobject_pool_size, gobjectHolder);
 	}
 
 	/*
@@ -127,7 +133,14 @@ public class ObjectRenderer : MonoBehaviour {
 	 */
 	void discardGameObject(GameObject obj) {
 		obj.GetComponent<GRObject> ().linked_gobject = null;
+		obj.GetComponent<SpriteRenderer> ().sprite = null;
+		obj.GetComponent<Animator> ().runtimeAnimatorController = null;
+		removeAnimationControllers (obj);
+		obj.transform.position = new Vector3 (0,0,0);
 		objectPool.push (obj);
+
+		//TESTS
+		TestUtils.active_r_objs--;
 	}
 
 	/*
@@ -179,6 +192,21 @@ public class ObjectRenderer : MonoBehaviour {
 			}
 		} 
 		return null;
+	}
+	/*
+	 *  Function: removeAnimationControllers
+	 *  
+	 *  Parameters: GameObject:<gobj>
+	 * 
+	 * 	Returns: void
+	 * 
+	 * 	-Removes all possible controller scripts that may have been added to <gobj>
+	 */
+	void removeAnimationControllers(GameObject gobj) {
+		Destroy(gobj.GetComponent<PlayerController> ());
+		Destroy(gobj.GetComponent<CharacController> ());
+		Destroy(gobj.GetComponent<AnimalController> ());
+		Destroy(gobj.GetComponent<ActorController> ());
 	}
 
 }

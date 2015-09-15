@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class GameCameraController : MonoBehaviour {
-	
+
+	public static GameCameraController GCamControl;
 	public GameObject target;
 	public Camera cam;
 
@@ -14,6 +15,7 @@ public class GameCameraController : MonoBehaviour {
 	Vector3 velocity = Vector3.zero;
 
 	public void Init() {
+		GCamControl = this;
 		camDepth = GameRenderer.GRenderer.getZUnitsCamera ();
 		cam = GetComponent<Camera> ();
 		cam.farClipPlane = Mathf.Abs(camDepth) + 100;
@@ -68,9 +70,9 @@ public class GameCameraController : MonoBehaviour {
 			last_position = transform.position;
 		}
 
-		if (Input.GetKeyDown (KeyCode.P)) {
+		/*if (Input.GetKeyDown (KeyCode.P)) {
 			adjustCamSize();
-		}
+		}*/
 
 		if(Input.GetKeyDown(KeyCode.LeftControl)) {
 			if(zoom_level > 1) {

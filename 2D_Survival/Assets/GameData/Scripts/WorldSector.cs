@@ -14,6 +14,7 @@ public class WorldSector {
 	
 	// variables for renderer use
 	public bool is_rendered = false;
+	public string gameObjectName = "Sector";
 	public GameObject terrainGameObject;
 	
 	public WorldSector(int index_x, int index_y, int lower_boundary_x, int upper_boundary_x, int lower_boundary_y, int upper_boundary_y) {
@@ -41,8 +42,8 @@ public class WorldSector {
 	}
 	
 	public Vector2 getCenter() {
-		return new Vector2 (GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width * index_x + GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width/2, 
-		                    GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width * index_y + GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width/2);
+		return new Vector2 (GameController.DataSettings.sector_size * GameController.DataSettings.tile_width * index_x + GameController.DataSettings.sector_size * GameController.DataSettings.tile_width/2, 
+		                    GameController.DataSettings.sector_size * GameController.DataSettings.tile_width * index_y + GameController.DataSettings.sector_size * GameController.DataSettings.tile_width/2);
 	}
 	
 	public string indexToString() {

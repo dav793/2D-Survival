@@ -23,40 +23,30 @@ public class GActor : GObject {
 	}
 
 	public override void setPosition(Vector2 point) {
-		removeFromSector ();
-		placeAtPoint (point);
-		addToSector (GameData.GData.getSectorFromWorldPoint (new Vector2 (pos_x, pos_y)));
+		if (placeAtPoint (point)) {
+			GameData.GData.moveObjToSector (this, GameData.GData.getSectorFromWorldPoint (new Vector2 (pos_x, pos_y)));
+		} 
 	}
 	
 	public override void setPosition(Vector2 sector_index, Vector2 offset) {
-		removeFromSector ();
-		placeAtPoint (GameData.GData.getSector (sector_index).getCenter(offset));
-		addToSector (GameData.GData.getSector (sector_index));
+		if (placeAtPoint (GameData.GData.getSector (sector_index).getCenter (offset))) {
+			GameData.GData.moveObjToSector (this, GameData.GData.getSector (sector_index));
+		} 
 	}
 
-	public void addToSector(WorldSector sector) {
-		if (this.sector == null) {
-			// object does not belong to a sector
-			this.sector = sector;
-			sector.Contained_Objects.addObject(this);
+	/*
+	 * Attempts to place the GActor instance at <point>. If successful true is returned. False is returned otherwise.
+	 * If placement is succesful and the new point is part of a different sector, moves the GActor reference to the new sector.
+	 */
+	public override bool placeAtPoint(Vector2 point) {
+		if(base.placeAtPoint(point)) {
+			WorldSector sec = GameData.GData.getSectorFromWorldPoint(point);
+			if(sec != sector) {
+				GameData.GData.moveObjToSector (this, sec);
+			}
+			return true;
 		}
-	}
-
-	public void removeFromSector() {
-		if (sector != null) {
-			// object belongs to a sector
-			sector.Contained_Objects.removeObject(this);
-			sector = null;
-		}
-		
-	}
-	
-	public void transferToSector(WorldSector sector) {
-		if (this.sector != null) {
-			// object belongs to a sector
-			removeFromSector();
-		}
-		addToSector (sector);
+		return false;
 	}
 
 	public void setBehaviour(GBehaviour behaviour) {
@@ -104,20 +94,14 @@ public class GActor : GObject {
 			corrected_mov.y *= -1;
 		}
 
-		bool moved = false;
-		if (corrected_mov.x != 0) {
-			pos_x += corrected_mov.x;
-			moved = true;
-		}
-		if (corrected_mov.y != 0) {
-			pos_y += corrected_mov.y;
-			moved = true;
-		}
-		
-		if (moved) {
-			GameRenderer.GRenderer.ScheduleObjectUpdate(RenderObjectUpdateOperations.UPDATE_POSITION, this);
+		if(corrected_mov.x != 0 || corrected_mov.y != 0) {		// if object needs to move
+			placeAtPoint (new Vector2(pos_x + corrected_mov.x, pos_y + corrected_mov.y));
 		}
 
+	}
+
+	public override bool isActor() {
+		return true;
 	}
 
 }

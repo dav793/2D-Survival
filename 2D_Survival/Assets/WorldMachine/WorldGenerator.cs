@@ -6,9 +6,6 @@ public class WorldGenerator {
 
 	public void generateScenery() {
 
-		List<GObject> bushes = new List<GObject>() {new OBJ_TropicalBush1(), new OBJ_TropicalBush2()};
-		List<GObject> trees = new List<GObject>() {new OBJ_TropicalTree1(), new OBJ_PalmTree1()};
-
 		int objs = 1000;
 		while (objs > 0) {
 

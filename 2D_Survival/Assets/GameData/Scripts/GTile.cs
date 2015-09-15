@@ -24,8 +24,8 @@ public class GTile {
 	}
 
 	public Vector2 getCenter() {
-		return new Vector2 (GameData.GData.data_settings.tile_width * index_x + GameData.GData.data_settings.tile_width/2, 
-		                    GameData.GData.data_settings.tile_width * index_y + GameData.GData.data_settings.tile_width/2);
+		return new Vector2 (GameController.DataSettings.tile_width * index_x + GameController.DataSettings.tile_width/2, 
+		                    GameController.DataSettings.tile_width * index_y + GameController.DataSettings.tile_width/2);
 	}
 
 	public string indexToString() {

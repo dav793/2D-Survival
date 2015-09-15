@@ -7,4 +7,9 @@ public class OBJ_Rabbit : GAnimal {
 		max_speed = 1f;
 	}
 
+	public OBJ_Rabbit(string gameObject_name) {
+		gameObjectName = gameObject_name;
+		max_speed = 1f;
+	}
+
 }

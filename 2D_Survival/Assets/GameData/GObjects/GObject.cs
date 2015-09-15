@@ -20,6 +20,7 @@ public class GObject {
 	// variables for renderer use
 	public bool is_rendered = false;
 	public GameObject renderedGameObject;
+	public string gameObjectName = "GObject";
 	public Sprite sprite;
 
 	public GObject() {
@@ -31,7 +32,7 @@ public class GObject {
 
 	}
 
-	public virtual void setPosition(Vector2 tile_index, Vector2 offset) {
+	public virtual void setPosition(Vector2 tileOrSector_index, Vector2 offset) {
 		
 	}
 
@@ -43,18 +44,31 @@ public class GObject {
 		return new Vector2 (pos_x, pos_y);
 	}
 
-	public void placeAtPoint(Vector2 point) {
-		pos_x = point.x;
-		pos_y = point.y;
+	public virtual bool placeAtPoint(Vector2 point) {
+		if (GameData.GData.requestObjectPositionChange (this, point)) {
+			if(is_rendered) {
+				GameRenderer.GRenderer.ScheduleObjectUpdate(RenderObjectUpdateOperations.UPDATE_POSITION, this);
+				//GameRenderer.GRenderer.rObject.updateObjectPosition (this);
+			}
+			return true;
+		}
+		//Debug.LogError("Failed placing object at point");
+		return false;
+	}
+	
+	public virtual bool isActor() {
+		return false;
 	}
 
 	// procedures for renderer use
 	public void linkGameObject(GameObject gobject) {
 		renderedGameObject = gobject;
+		renderedGameObject.GetComponent<GRObject> ().Activate ();
 		is_rendered = true;
 	}
 	
 	public void unlinkGameObject() {
+		renderedGameObject.GetComponent<GRObject> ().Deactivate ();
 		renderedGameObject = null;
 		is_rendered = false;
 	}

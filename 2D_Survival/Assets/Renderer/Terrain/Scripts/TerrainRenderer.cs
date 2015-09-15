@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 /*
- *	GameRenderer class:
- *		Subcomponent of GameRenderer, which renders the terrain elements associated to a WorldSector. 
+ *	TerrainRenderer class:
+ *		Subcomponent of GameRenderer, which renders the terrain elements (tiles) that comprise any given WorldSector. 
  */
 
 public class TerrainRenderer : MonoBehaviour {
@@ -13,16 +13,29 @@ public class TerrainRenderer : MonoBehaviour {
 	public GameObject terrainObject;
 	public GameObject terrainObjectHolder;
 
-	private GameObjectPool terrainObjectPool;
+	GameObjectPool terrainObjectPool;
+	string unassigned_go_name = "Unassigned Sector";
 
 	public void Init() {
 		initObjectPool ();
 		texMan.Init ();
 	}
 
+	/*
+	 *  Function: setupSector
+	 *  
+	 *  Parameters: WorldSector:<sector>
+	 * 
+	 * 	Returns: void
+	 * 
+	 * 	-Obtains a new GameObject from the <terrainObjectPool>, which will be used to render <sector>s terrain.
+	 *  -Initializes the GameObjects attributes and links references between <sector> and the GameObject
+	 *  -Sets the GameObjects position. 
+	 */
 	public void setupSector(WorldSector sector) {
-		float sector_width = GameData.GData.data_settings.sector_size * GameData.GData.data_settings.tile_width;
+		float sector_width = GameController.DataSettings.sector_size * GameController.DataSettings.tile_width;
 		GameObject obj = getNewTerrainObject();
+		obj.name = sector.gameObjectName;
 		setupObject(obj, sector);
 		obj.transform.position = new Vector3 (
 			sector.index_x * sector_width + sector_width,
@@ -30,26 +43,56 @@ public class TerrainRenderer : MonoBehaviour {
 			GameRenderer.GRenderer.getZUnitsTerrain()
 		);
 		sector.linkGameObject (obj);
+
+		//TESTS
+		TestUtils.active_r_trns++;
 	}
 
+	/*
+	 *  Function: discardSector
+	 *  
+	 *  Parameters: WorldSector:<sector>
+	 * 
+	 * 	Returns: void
+	 * 
+	 * 	-Returns <sector>s rendered GameObject to the <terrainObjectPool>.
+	 *  -Unlinks references between <sector> and the GameObject
+	 */
 	public void discardSector(WorldSector sector) {
-		discardTerrainObject (sector.terrainGameObject);
+		terrainObjectPool.push (sector.terrainGameObject);
 		sector.unlinkGameObject ();
+
+		//TESTS
+		TestUtils.active_r_trns--;
 	}
 
+	/*
+	 *  Function: getNewTerrainObject
+	 *  
+	 *  Parameters: none
+	 * 
+	 * 	Returns: <GameObject>
+	 * 
+	 * 	Obtains a new GameObject from the <terrainObjectPool>
+	 */
 	private GameObject getNewTerrainObject() {
 		GameObject obj = terrainObjectPool.pop ();
 		return obj;
 	}
 
-	private void discardTerrainObject(GameObject obj) {
-		terrainObjectPool.push (obj);
-	}
-
+	/*
+	 *  Function: setupObject
+	 *  
+	 *  Parameters: GameObject:<obj>, WorldSector:<sector>
+	 * 
+	 * 	Returns: void
+	 * 
+	 * 	Assigns a material and mesh to <obj> in relation to the data contained in <sector>
+	 */
 	private void setupObject(GameObject obj, WorldSector sector) {
 		obj.GetComponent<MeshRenderer> ().material = texMan.terrain_material;
 		//obj.GetComponent<MeshRenderer> ().material.mainTexture = texMan.terrain_sprite.texture;
-		obj.GetComponent<MeshFilter> ().mesh = generateMesh (GameData.GData.data_settings.sector_size * GameData.GData.data_settings.sector_size, GameData.GData.data_settings.tile_width, sector);
+		obj.GetComponent<MeshFilter> ().mesh = generateMesh (GameController.DataSettings.sector_size * GameController.DataSettings.sector_size, GameController.DataSettings.tile_width, sector);
 	}
 
 	private Mesh generateMesh(int tile_count, float tile_width, WorldSector sector) {
@@ -126,6 +169,16 @@ public class TerrainRenderer : MonoBehaviour {
 		uvs [4 * tile_index + (int)TileVertices.bottomLeft] 	= new Vector2 (uvCoords[1].x, uvCoords[0].y);
 	}
 
+	/*
+	 *  Function: initObjectPool
+	 *  
+	 *  Parameters: none
+	 * 
+	 * 	Returns: void
+	 * 
+	 * 	Initializes the <terrainObjectPool> with new instances of <terrainObject>, which is the GameObject prefab used to visualize terrain objects
+	 *  in the worldspace.
+	 */
 	private void initObjectPool() {
 		// Destroy any previous objects
 		List<GameObject> children = new List<GameObject> ();
@@ -135,7 +188,7 @@ public class TerrainRenderer : MonoBehaviour {
 		children.ForEach (child => Destroy(child));
 		
 		// Initialize terrain mesh object pool
-		terrainObjectPool = new GameObjectPool (terrainObject, 256, terrainObjectHolder);
+		terrainObjectPool = new GameObjectPool (terrainObject, unassigned_go_name, GameController.RendererSettings.terrain_pool_size, terrainObjectHolder);
 	}
 
 }

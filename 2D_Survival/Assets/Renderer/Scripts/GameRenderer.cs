@@ -102,6 +102,49 @@ public class GameRenderer : MonoBehaviour {
 		}
 	}
 
+	public void showSmallHoveringPanelOnAllObjects() {
+		for (int i = 0; i < renderedSectors.Count; ++i) {
+			for (int x = renderedSectors[i].lower_boundary_x; x < renderedSectors[i].upper_boundary_x; ++x) {
+				for (int y = renderedSectors[i].lower_boundary_y; y < renderedSectors[i].upper_boundary_y; ++y) {
+					GTile tile = GameData.GData.getTile(new Vector2(x, y));
+					for(int k = 0; k < tile.Contained_Objects.structures.all.count(); ++k) {
+						UIManager.UI.destroySHP(tile.Contained_Objects.structures.all.getObjectAt(k).renderedGameObject);
+						UIManager.UI.createSHP(tile.Contained_Objects.structures.all.getObjectAt(k).renderedGameObject);
+					}
+					for(int k = 0; k < tile.Contained_Objects.items.all.count(); ++k) {
+						UIManager.UI.destroySHP(tile.Contained_Objects.items.all.getObjectAt(k).renderedGameObject);
+						UIManager.UI.createSHP(tile.Contained_Objects.items.all.getObjectAt(k).renderedGameObject);
+					}
+				}
+			}
+
+			for (int j = 0; j < renderedSectors[i].Contained_Objects.actors.all.count(); ++j) {
+				UIManager.UI.destroySHP(renderedSectors[i].Contained_Objects.actors.all.getObjectAt(j).renderedGameObject);
+				UIManager.UI.createSHP(renderedSectors[i].Contained_Objects.actors.all.getObjectAt(j).renderedGameObject);
+			}
+		}
+	}
+
+	public void destroyAllHoveringPanels() {
+		for (int i = 0; i < renderedSectors.Count; ++i) {
+			for (int x = renderedSectors[i].lower_boundary_x; x < renderedSectors[i].upper_boundary_x; ++x) {
+				for (int y = renderedSectors[i].lower_boundary_y; y < renderedSectors[i].upper_boundary_y; ++y) {
+					GTile tile = GameData.GData.getTile(new Vector2(x, y));
+					for(int k = 0; k < tile.Contained_Objects.structures.all.count(); ++k) {
+						UIManager.UI.destroySHP(tile.Contained_Objects.structures.all.getObjectAt(k).renderedGameObject);
+					}
+					for(int k = 0; k < tile.Contained_Objects.items.all.count(); ++k) {
+						UIManager.UI.destroySHP(tile.Contained_Objects.items.all.getObjectAt(k).renderedGameObject);
+					}
+				}
+			}
+			
+			for (int j = 0; j < renderedSectors[i].Contained_Objects.actors.all.count(); ++j) {
+				UIManager.UI.destroySHP(renderedSectors[i].Contained_Objects.actors.all.getObjectAt(j).renderedGameObject);
+			}
+		}
+	}
+
 	public int getZUnitsTerrain() {
 		return GameController.PSettings.zunits_per_level * (int)DepthLevel.TERRAIN;
 	}
@@ -288,4 +331,12 @@ public class GameRenderer : MonoBehaviour {
 		return false;
 	}
 
+	/******** FOR TESTING ********/
+	public string renderedSectorsToString() {
+		string str = "";
+		for (int i = 0; i < renderedSectors.Count; ++i) {
+			str = str + "(" + renderedSectors[i].indexToString() + ") ";
+		}
+		return str;
+	}
 }

@@ -20,20 +20,33 @@ public class GStructure : GObject {
 
 	public override void setPosition(Vector2 point) {
 		removeFromTile ();
-		placeAtPoint (point);
-		addToTile (GameData.GData.getTileFromWorldPoint (new Vector2 (pos_x, pos_y)));
+		if (placeAtPoint (point)) {
+			addToTile (GameData.GData.getTileFromWorldPoint (new Vector2 (pos_x, pos_y)));
+		} 
+		else {
+			Debug.LogError("Failed to place GStructure at "+point);
+		}
+
 	}
 
 	public override void setPosition(Vector2 tile_index, Vector2 offset) {
 		removeFromTile ();
-		placeAtPoint (GameData.GData.getTile (tile_index).getCenter(offset));
-		addToTile (GameData.GData.getTile (tile_index));
+		if (placeAtPoint (GameData.GData.getTile (tile_index).getCenter (offset))) {
+			addToTile (GameData.GData.getTile (tile_index));
+		} 
+		else {
+			Debug.LogError("Failed to place GStructure at "+GameData.GData.getTile (tile_index).getCenter (offset));
+		}
 	}
 
 	public override void setPosition(GTile tile, Vector2 offset) {
 		removeFromTile ();
-		placeAtPoint (tile.getCenter(offset));
-		addToTile (tile);
+		if (placeAtPoint (tile.getCenter (offset))) {
+			addToTile (tile);
+		} 
+		else {
+			Debug.LogError("Failed to place GStructure at "+tile.getCenter (offset));
+		}
 	}
 
 	public void addToTile(GTile tile) {

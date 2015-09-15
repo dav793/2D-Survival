@@ -4,11 +4,19 @@ using System.Collections.Generic;
 
 public class GameObjectPool {
 
-	private Stack<GameObject> pool;
-	private GameObject reference_object;
-	private int size;
+	Stack<GameObject> pool;
+	GameObject reference_object;
+	int size;
+	string obj_name = "Unassigned";
 
 	public GameObjectPool(GameObject reference_object, int pool_size, GameObject parent_obj) {
+		size = pool_size;
+		this.reference_object = reference_object;
+		this.obj_name = obj_name;
+		initialize (parent_obj);
+	}
+
+	public GameObjectPool(GameObject reference_object, string obj_name, int pool_size, GameObject parent_obj) {
 		size = pool_size;
 		this.reference_object = reference_object;
 		initialize (parent_obj);
@@ -24,6 +32,7 @@ public class GameObjectPool {
 	}
 	
 	public void push(GameObject obj) {
+		obj.name = obj_name;
 		obj.SetActive(false);
 		pool.Push (obj);
 	}
@@ -36,6 +45,7 @@ public class GameObjectPool {
 		pool = new Stack<GameObject> ();
 		for (int i = 0; i < size; ++i) {
 			GameObject obj = GameObject.Instantiate(reference_object) as GameObject;
+			obj.name = obj_name;
 			obj.transform.parent = parent_obj.transform;
 			obj.SetActive(false);
 			pool.Push(obj);
