@@ -98,11 +98,6 @@ public class GameData : MonoBehaviour {
 		for (int x = 0; x < GameController.DataSettings.world_size; ++x) {
 			for (int y = 0; y < GameController.DataSettings.world_size; ++y) {
 				worldTiles[x, y] = new GTile(x, y);
-				/* test */
-				if(UnityEngine.Random.Range(0,100) < 2) {
-					worldTiles[x, y].biome = BiomeData.coniferous_forest;
-				}
-				/* end test */
 			}
 		}
 		

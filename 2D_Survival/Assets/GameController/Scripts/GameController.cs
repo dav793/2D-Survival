@@ -35,12 +35,12 @@ public class GameController : MonoBehaviour {
 		DataSettings.world_size = 1000;																// in square tiles
 		DataSettings.sector_size = 10;																// in square tiles
 		DataSettings.world_side_sectors = DataSettings.world_size / DataSettings.sector_size;		// in square sectors
-		DataSettings.tile_width = 24;																// in pixels
+		DataSettings.tile_width = 32;																// in pixels
 		DataSettings.within_range_radius = 20;														// in tiles
 		DataSettings.render_radius = 20;															// in tiles
 
 		RendererSettings = new Renderer_Settings ();
-		RendererSettings.terrain_pool_size = 256;
+		RendererSettings.terrain_pool_size = 4084;
 		RendererSettings.gobject_pool_size = 4084;
 
 		PSettings = new Prog_Settings ();

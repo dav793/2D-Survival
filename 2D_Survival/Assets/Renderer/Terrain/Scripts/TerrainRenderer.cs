@@ -14,7 +14,7 @@ public class TerrainRenderer : MonoBehaviour {
 	public GameObject terrainObjectHolder;
 
 	GameObjectPool terrainObjectPool;
-	string unassigned_go_name = "Unassigned Sector";
+	string unassigned_go_name = "Unassigned Tile";
 
 	public void Init() {
 		initObjectPool ();
