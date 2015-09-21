@@ -7,7 +7,7 @@ using System.Collections.Generic;
  *  Contains auxiliary/utility types and classes for use within the GameData component.
  */
 
-public enum GObjectType { Structure, Actor, Item };
+public enum GObjectType { Structure, Actor, Item, Player, Character, Animal };
 
 public struct GameData_Settings {
 	public int world_size;					// world side length in tiles
@@ -147,24 +147,27 @@ public class GObject_Sector_RefList {
 		actors = new GObject_Actors_RefList (sector_index);
 	}
 	public void addObject(GObject obj) {
-		if (obj.type == GObjectType.Actor) {
-			actors.addObject ((GActor)obj);
+		GActor act = obj as GActor;
+		if (act != null) {
+			actors.addObject (act);
 		} 
 		else {
 			Debug.LogError ("Invalid GObject type");
 		}
 	}
 	public void removeObject(GObject obj) {
-		if (obj.type == GObjectType.Actor) {
-			actors.removeObject ((GActor)obj);
+		GActor act = obj as GActor;
+		if (act != null) {
+			actors.removeObject (act);
 		} 
 		else {
 			Debug.LogError ("Invalid GObject type");
 		}
 	}
 	public bool objectIsContained(GObject obj) {
-		if (obj.type == GObjectType.Actor) {
-			return actors.objectIsContained ((GActor)obj);
+		GActor act = obj as GActor;
+		if (act != null) {
+			return actors.objectIsContained (act);
 		} 
 		else {
 			Debug.LogError ("Invalid GObject type");

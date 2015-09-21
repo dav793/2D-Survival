@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour {
 	public GameObject canvas;
 	public GameObject SmallHoveringPanel_Prefab;
 	public UI_InfoPanel info_panel;
+	public GameObject DebugConsole1;
 
 	void Awake() {
 		if (UI == null) {

@@ -16,6 +16,7 @@ public class GStructure : GObject {
 		this.movable = movable;
 		this.environmental = environmental;
 		reflist_index = new GStructure_RefList_Index ();
+		type = GObjectType.Structure;
 	}
 
 	public override void setPosition(Vector2 point) {

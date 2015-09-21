@@ -10,6 +10,9 @@ public class ObjectRenderer : MonoBehaviour {
 
 	public GameObject gobject;
 	public GameObject gobjectHolder;
+	public GameObject characterAnimStructure;
+	public GameObject animalAnimStructure;
+	public GameObject generalAnimStructure;
 
 	GameObjectPool objectPool;
 	string unassigned_go_name = "Unassigned Object";
@@ -17,7 +20,6 @@ public class ObjectRenderer : MonoBehaviour {
 	public void Init() {
 		initObjectPool ();
 	}
-
 	/*
 	 *  Function: setupObject
 	 *  
@@ -32,15 +34,17 @@ public class ObjectRenderer : MonoBehaviour {
 	public void setupObject(GObject obj) {
 		GameObject robj = getNewGameObject ();
 		obj.linkGameObject (robj);
-		robj.name = obj.gameObjectName;
-		robj.GetComponent<GRObject> ().linked_gobject = obj;
-		robj.GetComponent<SpriteRenderer> ().sprite = obj.sprite;
-		robj.GetComponent<Animator> ().runtimeAnimatorController = getAnimationController (obj);
+
+		GRObject grobj = robj.GetComponent<GRObject> ();
+		grobj.Activate (obj);
+		//robj.GetComponent<SpriteRenderer> ().sprite = obj.sprite;
+		//robj.GetComponent<Animator> ().runtimeAnimatorController = getAnimationController (obj);
 		robj.transform.position = new Vector3 (
 			(int)obj.pos_x,
 			(int)obj.pos_y,
 			GameRenderer.GRenderer.getZUnitsObject(obj.getPosition())
 		);
+		robj.name = obj.gameObjectName;
 
 		//TESTS
 		TestUtils.active_r_objs++;
@@ -129,13 +133,13 @@ public class ObjectRenderer : MonoBehaviour {
 	 * 
 	 * 	Returns: void
 	 * 
-	 * 	Deactivates and returns <obj> the <objectPool>
+	 * 	Deactivates and returns <obj> to the <objectPool>
 	 */
 	void discardGameObject(GameObject obj) {
-		obj.GetComponent<GRObject> ().linked_gobject = null;
-		obj.GetComponent<SpriteRenderer> ().sprite = null;
-		obj.GetComponent<Animator> ().runtimeAnimatorController = null;
-		removeAnimationControllers (obj);
+		obj.GetComponent<GRObject> ().Deactivate ();
+		//obj.GetComponent<SpriteRenderer> ().sprite = null;
+		//obj.GetComponent<Animator> ().runtimeAnimatorController = null;
+		//removeAnimationControllers (obj);
 		obj.transform.position = new Vector3 (0,0,0);
 		objectPool.push (obj);
 
@@ -154,7 +158,7 @@ public class ObjectRenderer : MonoBehaviour {
 	 * 	-Also adds the corresponding ActorController component to <gobj>s rendered GameObject
 	 *  -Will return null if <gobj> is not animated.
 	 */
-	RuntimeAnimatorController getAnimationController(GObject gobj) {
+	/*RuntimeAnimatorController getAnimationController(GObject gobj) {
 		//Check if gobject is an actor
 		GActor act = gobj as GActor;
 		if (act != null) {
@@ -163,14 +167,19 @@ public class ObjectRenderer : MonoBehaviour {
 			OBJ_Player player = act as OBJ_Player;
 			if (player != null) {
 				controller = gobj.renderedGameObject.AddComponent<PlayerController> ();
+				GameObject bodyparts = Instantiate(characterAnimStructure) as GameObject;
+				bodyparts.transform.parent = gobj.renderedGameObject.transform;
+				bodyparts.GetComponent<CharBodyController> ().Init(gobj);
 				controller.linkActor(act);
-				return AnimationControllers.AnimControllers.player;
+				return null;
 			}
 			else {
 				//Check if gobject is a character
 				GCharacter character = act as GCharacter;
 				if(character != null) {
 					controller = gobj.renderedGameObject.AddComponent<CharacController> ();
+					GameObject bodyparts = Instantiate(characterAnimStructure) as GameObject;
+					bodyparts.transform.parent = gobj.renderedGameObject.transform;
 					controller.linkActor(act);
 					return AnimationControllers.AnimControllers.character;
 				}
@@ -192,7 +201,7 @@ public class ObjectRenderer : MonoBehaviour {
 			}
 		} 
 		return null;
-	}
+	}*/
 	/*
 	 *  Function: removeAnimationControllers
 	 *  
@@ -202,11 +211,18 @@ public class ObjectRenderer : MonoBehaviour {
 	 * 
 	 * 	-Removes all possible controller scripts that may have been added to <gobj>
 	 */
-	void removeAnimationControllers(GameObject gobj) {
+	/*void removeAnimationControllers(GameObject gobj) {
 		Destroy(gobj.GetComponent<PlayerController> ());
 		Destroy(gobj.GetComponent<CharacController> ());
 		Destroy(gobj.GetComponent<AnimalController> ());
 		Destroy(gobj.GetComponent<ActorController> ());
-	}
+
+		// Destroy all children gameobjects of gobj
+		List<GameObject> children = new List<GameObject> ();
+		foreach (Transform child in gobj.transform)
+			children.Add (child.gameObject);
+		children.ForEach (child => Destroy(child));
+
+	}*/
 
 }

@@ -55,7 +55,7 @@ public class GObject {
 		//Debug.LogError("Failed placing object at point");
 		return false;
 	}
-	
+
 	public virtual bool isActor() {
 		return false;
 	}
@@ -63,12 +63,10 @@ public class GObject {
 	// procedures for renderer use
 	public void linkGameObject(GameObject gobject) {
 		renderedGameObject = gobject;
-		renderedGameObject.GetComponent<GRObject> ().Activate ();
 		is_rendered = true;
 	}
 	
 	public void unlinkGameObject() {
-		renderedGameObject.GetComponent<GRObject> ().Deactivate ();
 		renderedGameObject = null;
 		is_rendered = false;
 	}

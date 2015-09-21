@@ -79,6 +79,10 @@ public class GameController : MonoBehaviour {
 			if(Input.GetKeyDown(KeyCode.L)) {
 				GameRenderer.GRenderer.destroyAllHoveringPanels();
 			}
+
+			if(Input.GetKeyDown(KeyCode.M)) {
+				TestUtils.debugging = !TestUtils.debugging;
+			}
 		}
 	}
 

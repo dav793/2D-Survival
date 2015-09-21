@@ -9,7 +9,9 @@ using System.Collections.Generic;
 
 public enum CardinalDirections { None, N, NE, E, SE, S, SW, W, NW };
 
-public enum MovDirections { Sides, Up, Down };
+public enum ActorActions { Idle, Running };
+
+//public enum GObjectType { Player, Character, Animal };
 
 public enum BiomeTypes { TropicalForest, ConiferousForest, Desert, AbandonedSettlement };
 
@@ -22,4 +24,16 @@ public enum BOOL_YN { YES, NO };
 public struct Prog_Settings {
 	public int zunits_per_level;
 };
+
+[System.Serializable]
+public class Animator_Clip_Pair {
+	public Animator animator;
+	AnimationClip clip;
+	public void setClip(AnimationClip newClip) {
+		clip = newClip;
+	}
+	public AnimationClip getClip() {
+		return clip;
+	}
+}
 

@@ -70,7 +70,7 @@ public class GameData : MonoBehaviour {
 		active_player.setPosition (new Vector2(400,400));
 		//active_player.setPosition (getTile(new Vector2(0,0)).getCenter());
 
-		for (int i = 0; i < 3; ++i) {
+		for (int i = 0; i < 5; ++i) {
 			GCharacter charac = new GCharacter ();
 			charac.setPosition (new Vector2(400+UnityEngine.Random.Range(-100, 100), 400+UnityEngine.Random.Range(-100, 100)));
 			charac.setBehaviour (new Behaviour_PaceRandomly());
