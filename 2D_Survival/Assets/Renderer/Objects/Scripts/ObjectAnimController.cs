@@ -6,7 +6,7 @@ public class ObjectAnimController : MonoBehaviour {
 	public GObject linked_gobj;
 	public GRObject grobj;
 
-	public void changeClip(Animator_Clip_Pair anim, AnimationClip newClip) {
+	public void changeAnimClip(Animator_Clip_Pair anim, AnimationClip newClip) {
 		AnimatorOverrideController ov_ctrl = new AnimatorOverrideController ();
 		ov_ctrl.runtimeAnimatorController = anim.animator.runtimeAnimatorController;
 		ov_ctrl [anim.getClip()] = newClip;
@@ -42,6 +42,10 @@ public class ObjectAnimController : MonoBehaviour {
 			break;
 		}
 		return clipSuffix;
+	}
+
+	public string getClipName(string prefix, string bodypart) {
+		return prefix + "_" + getBodypartClipSuffix(bodypart);
 	}
 
 	public virtual void updateClips() {}

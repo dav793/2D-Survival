@@ -70,13 +70,13 @@ public class GameData : MonoBehaviour {
 		active_player.setPosition (new Vector2(400,400));
 		//active_player.setPosition (getTile(new Vector2(0,0)).getCenter());
 
-		for (int i = 0; i < 5; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			GCharacter charac = new GCharacter ();
 			charac.setPosition (new Vector2(400+UnityEngine.Random.Range(-100, 100), 400+UnityEngine.Random.Range(-100, 100)));
 			charac.setBehaviour (new Behaviour_PaceRandomly());
 		}
 
-		for (int i = 0; i < 100; ++i) {
+		for (int i = 0; i < 16; ++i) {
 			OBJ_Rabbit bunny = new OBJ_Rabbit ("Liro boni");
 			bunny.setPosition (new Vector2(400+UnityEngine.Random.Range(-100, 100), 400+UnityEngine.Random.Range(-100, 100)));
 			bunny.setBehaviour (new Behaviour_PaceRandomly());

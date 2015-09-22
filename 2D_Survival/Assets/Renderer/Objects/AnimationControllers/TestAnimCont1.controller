@@ -22,6 +22,125 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   m_MultiThreadedStateMachine: 1
+--- !u!1102 &110202172
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlackPants1_IdRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 2d51e876437f69e4f90ffcc277cb6706, type: 2}
+  m_Tag: 
+--- !u!1102 &110207256
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownSleeves1_RunRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: f20af65317b395c4798b6fa05932fb8f, type: 2}
+  m_Tag: 
+--- !u!1102 &110208514
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlackPants1_IdFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 1e4dea231073d6f4396200ab767804c4, type: 2}
+  m_Tag: 
+--- !u!1102 &110213034
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RedShoes1_IdRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 76cbb1a3aa4ba5446aa88d873fa5d501, type: 2}
+  m_Tag: 
+--- !u!1102 &110217072
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RedShoes1_RunFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: b29b299af8340a844b9dc1768f55370f, type: 2}
+  m_Tag: 
+--- !u!1102 &110217680
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownVest1_RunFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 8158f8e2e68aad24b8428a76ffabd3bd, type: 2}
+  m_Tag: 
+--- !u!1102 &110219532
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RedShoes1_IdBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 0932c27373b75174695157a657932749, type: 2}
+  m_Tag: 
 --- !u!1102 &110219710
 AnimatorState:
   serializedVersion: 5
@@ -38,6 +157,125 @@ AnimatorState:
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_Motion: {fileID: 7400000, guid: 8bf0ca5c1fe4742489621b765083f091, type: 2}
+  m_Tag: 
+--- !u!1102 &110233066
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownVest1_IdFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 535367a3e1cbca5439659eda402a0989, type: 2}
+  m_Tag: 
+--- !u!1102 &110234982
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlackPants1_RunBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 2ca108d45df9d0e459e35d1069552de4, type: 2}
+  m_Tag: 
+--- !u!1102 &110236410
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownSleeves1_IdRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: e6b9ea82a50baa44c9bd3464fa828249, type: 2}
+  m_Tag: 
+--- !u!1102 &110245428
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownSleeves1_IdFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 99097cdf831a34948b23a8767eb127e2, type: 2}
+  m_Tag: 
+--- !u!1102 &110248534
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlackPants1_RunRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: cd11f845b20baad46ba413be3f1bd65d, type: 2}
+  m_Tag: 
+--- !u!1102 &110250548
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownVest1_RunRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 8589d4bf9f1e2274398bb207450baae8, type: 2}
+  m_Tag: 
+--- !u!1102 &110260584
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownVest1_IdBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 46da0ec83865305459894652175cc639, type: 2}
   m_Tag: 
 --- !u!1102 &110261508
 AnimatorState:
@@ -56,6 +294,176 @@ AnimatorState:
   m_Mirror: 0
   m_Motion: {fileID: 7400000, guid: 8bf0ca5c1fe4742489621b765083f091, type: 2}
   m_Tag: 
+--- !u!1102 &110262140
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownSleeves1_IdBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 5ade10475e0ca8640aaa47857382204e, type: 2}
+  m_Tag: 
+--- !u!1102 &110271532
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RedShoes1_IdFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 43f54992bdd67e346984830f3695509f, type: 2}
+  m_Tag: 
+--- !u!1102 &110273866
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlackPants1_RunFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 4151d7054be166a4ca8d794381c5184b, type: 2}
+  m_Tag: 
+--- !u!1102 &110274806
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownSleeves1_RunBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: fa1dba07e3ef4f74791e817a2779a9dd, type: 2}
+  m_Tag: 
+--- !u!1102 &110282184
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownVest1_IdRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: bf73cac44e38aa840bffa6798e6d0d47, type: 2}
+  m_Tag: 
+--- !u!1102 &110283752
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownVest1_RunBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 22af5259cbb53b643aa2e302cdbc077c, type: 2}
+  m_Tag: 
+--- !u!1102 &110283850
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlackPants1_IdBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 2d257fff30ebd874cbeaa0749196a57e, type: 2}
+  m_Tag: 
+--- !u!1102 &110288118
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RedShoes1_RunRight
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 2599ed1af8c6f134a8ee1d8d540f3d61, type: 2}
+  m_Tag: 
+--- !u!1102 &110290288
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: RedShoes1_RunBack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 29f10da7d85de0b4098f8638821b8d21, type: 2}
+  m_Tag: 
+--- !u!1102 &110299194
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BrownSleeves1_RunFront
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_Motion: {fileID: 7400000, guid: 2bc79e13fef912f4cbd6ca9dd428ebd9, type: 2}
+  m_Tag: 
 --- !u!1107 &110752478
 AnimatorStateMachine:
   serializedVersion: 5
@@ -70,6 +478,78 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 110261508}
     m_Position: {x: 312, y: -132, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110283850}
+    m_Position: {x: 347, y: -67, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110208514}
+    m_Position: {x: 382, y: -2, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110202172}
+    m_Position: {x: 417, y: 63, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110273866}
+    m_Position: {x: 452, y: 128, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110234982}
+    m_Position: {x: 487, y: 193, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110248534}
+    m_Position: {x: 522, y: 258, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110262140}
+    m_Position: {x: 557, y: 323, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110245428}
+    m_Position: {x: 592, y: 388, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110236410}
+    m_Position: {x: 627, y: 453, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110274806}
+    m_Position: {x: 662, y: 518, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110299194}
+    m_Position: {x: 697, y: 583, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110207256}
+    m_Position: {x: 732, y: 648, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110260584}
+    m_Position: {x: 767, y: 713, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110233066}
+    m_Position: {x: 802, y: 778, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110282184}
+    m_Position: {x: 837, y: 843, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110283752}
+    m_Position: {x: 872, y: 908, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110217680}
+    m_Position: {x: 907, y: 973, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110250548}
+    m_Position: {x: 942, y: 1038, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110219532}
+    m_Position: {x: 977, y: 1103, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110271532}
+    m_Position: {x: 1012, y: 1168, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110213034}
+    m_Position: {x: 1047, y: 1233, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110290288}
+    m_Position: {x: 1082, y: 1298, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110217072}
+    m_Position: {x: 1117, y: 1363, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 110288118}
+    m_Position: {x: 1152, y: 1428, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

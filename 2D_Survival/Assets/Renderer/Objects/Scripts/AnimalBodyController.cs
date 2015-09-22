@@ -9,6 +9,7 @@ public class AnimalBodyController : ObjectAnimController {
 	public void Init(GObject gobj) {
 		linked_gobj = gobj;
 		grobj = linked_gobj.renderedGameObject.GetComponent<GRObject> ();
+		initAnimClipPairs ();
 		setDefaultAnims ();
 	}
 
@@ -16,10 +17,13 @@ public class AnimalBodyController : ObjectAnimController {
 		updateBody ();
 	}
 
-	void setDefaultAnims() {
-		
+	void initAnimClipPairs() {
 		Body.setClip (AnimationControllers.AnimControllers.defaultClip);
-		changeClip (Body, GetClipFromResources ("Rabbit1", "IdBack"));
+	}
+
+	void setDefaultAnims() {
+
+		changeAnimClip (Body, GetClipFromResources ("Rabbit1", "IdBack"));
 		
 	}
 
@@ -29,7 +33,7 @@ public class AnimalBodyController : ObjectAnimController {
 		string newClipSuffix = getBodypartClipSuffix("Torso");
 		
 		if (Body.getClip () != GetClipFromResources (newClipPrefix, newClipSuffix)) {
-			changeClip (Body, GetClipFromResources (newClipPrefix, newClipSuffix));
+			changeAnimClip (Body, GetClipFromResources (newClipPrefix, newClipSuffix));
 		}
 
 	}

@@ -27,7 +27,6 @@ public class GStructure : GObject {
 		else {
 			Debug.LogError("Failed to place GStructure at "+point);
 		}
-
 	}
 
 	public override void setPosition(Vector2 tile_index, Vector2 offset) {

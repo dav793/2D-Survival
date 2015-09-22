@@ -167,21 +167,18 @@ public class ActorController : MonoBehaviour {
 	void startAction(string action) {
 		if(!StringIsInList(action, active_actions)) {
 			active_actions.Add(action);
-			//updateAnimClips();
 		}
 	}
 
 	void stopAction(string action) {
 		if(StringIsInList(action, active_actions)) {
 			active_actions.Remove(action);
-			//updateAnimClips();
 		}
 	}
 
 	void changeFaceDirection(CardinalDirections new_direction) {
 		if (face_direction != new_direction) {
 			face_direction = new_direction;
-			//updateAnimClips();
 		}
 	}
 

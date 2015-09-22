@@ -5,6 +5,8 @@ public class GItem : GObject {
 
 	public GTile tile;
 	public GItem_RefList_Index reflist_index;
+	
+	public float weight;
 
 	public GItem() {
 		base.type = GObjectType.Item;	
@@ -13,20 +15,29 @@ public class GItem : GObject {
 
 	public override void setPosition(Vector2 point) {
 		removeFromTile ();
-		placeAtPoint (point);
-		addToTile (GameData.GData.getTileFromWorldPoint (new Vector2 (pos_x, pos_y)));
+		if (placeAtPoint (point)) {
+			addToTile (GameData.GData.getTileFromWorldPoint (new Vector2 (pos_x, pos_y)));
+		} 
+		else {
+			Debug.LogError("Failed to place GItem at "+point);
+		}
 	}
 	
 	public override void setPosition(Vector2 tile_index, Vector2 offset) {
 		removeFromTile ();
-		placeAtPoint (GameData.GData.getTile (tile_index).getCenter(offset));
-		addToTile (GameData.GData.getTile (tile_index));
+		if (placeAtPoint (GameData.GData.getTile (tile_index).getCenter (offset))) {
+			addToTile (GameData.GData.getTile (tile_index));
+		}
+		else {
+			Debug.LogError("Failed to place GItem at tile "+tile_index.x+", "+tile_index.y);
+		}
 	}
 
 	public override void setPosition(GTile tile, Vector2 offset) {
 		removeFromTile ();
-		placeAtPoint (tile.getCenter(offset));
-		addToTile (tile);
+		if (placeAtPoint (tile.getCenter (offset))) {
+			addToTile (tile);
+		}
 	}
 
 	public void addToTile(GTile tile) {
@@ -54,5 +65,15 @@ public class GItem : GObject {
 		addToTile (tile);
 	}
 
+	public virtual bool isEquippable() {
+		return false;
+	}
+
+	public virtual string getDebug() {
+		return "";
+	}
+
 }
+
+
 
