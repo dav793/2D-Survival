@@ -4,7 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 /*
- * Short for Game Renderer Object
+ *  Class: GRObject
+ * 
+ *  -Short for Game Renderer Object
+ *  -Its a script which is attached to every GObjects <renderedGameObject> in the scene.
+ *  -Handles the adding and removing of other components or child GameObjects specific to each GObject type.
+ * 
  */
 
 public class GRObject : MonoBehaviour {
@@ -23,7 +28,8 @@ public class GRObject : MonoBehaviour {
 	
 	void updateZPos() {
 		if (linked_gobject != null) {
-			GameRenderer.GRenderer.rObject.updateObjectPosition (linked_gobject);
+			//GameRenderer.GRenderer.rObject.updateObjectPosition (linked_gobject);
+			GameRenderer.GRenderer.rObject.updateObjectZ(linked_gobject);
 		}
 	}
 
@@ -70,6 +76,13 @@ public class GRObject : MonoBehaviour {
 		return null;
 	}
 
+	/*
+	 * Function: Setup
+	 * 
+	 * -Sets up the GameObject this script is attached to. That is:
+	 * 		-Adds controllers, components or child GameObjects to this GameObject, which are specific to each GObjectType
+	 * 		-Initializes added controllers/components.
+	 */
 	void Setup(GObjectType obj_type) {
 
 		ActorController controller;
@@ -79,8 +92,11 @@ public class GRObject : MonoBehaviour {
 
 		case GObjectType.Player:
 
+			// add PlayerController
 			controller = linked_gobject.renderedGameObject.AddComponent<PlayerController> ();
 			addedComponents.Add(controller);
+
+			// add bodypart structure hierarchy
 			parts = Instantiate(GameRenderer.GRenderer.rObject.characterAnimStructure) as GameObject;
 			addedGameObjects.Add(parts);
 
@@ -91,8 +107,11 @@ public class GRObject : MonoBehaviour {
 
 		case GObjectType.Character:
 
+			// add CharacController
 			controller = linked_gobject.renderedGameObject.AddComponent<CharacController> ();
 			addedComponents.Add(controller);
+
+			// add bodypart structure hierarchy
 			parts = Instantiate(GameRenderer.GRenderer.rObject.characterAnimStructure) as GameObject;
 			addedGameObjects.Add(parts);
 			
@@ -103,8 +122,11 @@ public class GRObject : MonoBehaviour {
 
 		case GObjectType.Animal:
 
+			// add AnimalController
 			controller = linked_gobject.renderedGameObject.AddComponent<AnimalController> ();
 			addedComponents.Add(controller);
+
+			// add bodypart structure hierarchy
 			parts = Instantiate(GameRenderer.GRenderer.rObject.animalAnimStructure) as GameObject;
 			addedGameObjects.Add(parts);
 
@@ -115,20 +137,27 @@ public class GRObject : MonoBehaviour {
 
 		case GObjectType.Structure:
 
-			GeneralGObjectController ctrl = linked_gobject.renderedGameObject.AddComponent<GeneralGObjectController> ();
+			// add GeneralObjectController
+			StructureController ctrl = linked_gobject.renderedGameObject.AddComponent<StructureController> ();
 			addedComponents.Add(ctrl);
 
+			// add sprite renderer
 			Component sprite_renderer = linked_gobject.renderedGameObject.AddComponent<SpriteRenderer> ();
 			addedComponents.Add(sprite_renderer);
 
 			ctrl.linkGObject(linked_gobject);
-			ctrl.Init ();
+			ctrl.Init ();		// sets sprite
 			break;
 
 		}
 
 	}
 
+	/*
+	 * Function: Reset
+	 * 
+	 * -Removes all components/gameObjects added to this GameObject
+	 */
 	void Reset() {
 
 		for (int i = 0; i < addedComponents.Count; ++i) {

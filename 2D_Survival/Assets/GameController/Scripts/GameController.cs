@@ -19,6 +19,9 @@ public class GameController : MonoBehaviour {
 	private bool game_started = false;				// this will be set to true once initialization is finished
 	SmallHoveringPanel temp_shp;
 
+	int final_frameskip = 0;
+	int render_frameskip;
+
 	void Awake() {
 		if (GController == null) {
 			GController = this;
@@ -45,6 +48,8 @@ public class GameController : MonoBehaviour {
 
 		PSettings = new Prog_Settings ();
 		PSettings.zunits_per_level = -3000;
+
+		render_frameskip = final_frameskip;
 
 		GameData.GData.Init ();
 		GameRenderer.GRenderer.Init ();
@@ -88,7 +93,12 @@ public class GameController : MonoBehaviour {
 
 	private void Tick() {
 		GameData.GData.Tick ();
-		GameRenderer.GRenderer.Tick ();
+		if (render_frameskip > 0) {
+			render_frameskip--;
+		} else {
+			GameRenderer.GRenderer.Tick ();
+			render_frameskip = final_frameskip;
+		}
 	}
 
 }

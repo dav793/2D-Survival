@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OBJ_TropicalTree1 : GStructure {
-
-	static BOOL_YN interactive = BOOL_YN.YES;
-	static BOOL_YN movable = BOOL_YN.NO;
-	static BOOL_YN environmental = BOOL_YN.YES;
 	
-	public OBJ_TropicalTree1() : base(OBJ_TropicalTree1.interactive, OBJ_TropicalTree1.movable, OBJ_TropicalTree1.environmental) {
-		sprite = SpriteDatabase.sprites.tropical_tree_1;
+	public OBJ_TropicalTree1() : base(
+		GStructureProperties.GetDefaultProperties(GStructurePropertiesType.BlockingVegetation),
+		GStructureDimensions.GetDefaultDimensions(GStructureDimensionsType.Medium)
+	) {
+		resource_identifiers = new Pair<string, Dictionary<CardinalDirections, List<string>>> (
+			"Tree1",
+			new Dictionary<CardinalDirections, List<string>> () {
+				{CardinalDirections.S, new List<string> (new string[] {""})}
+			}
+		); 
 	}
 
 }

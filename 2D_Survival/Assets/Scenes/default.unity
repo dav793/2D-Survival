@@ -459,8 +459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9e1d5180d55a1468a4d4a520063e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid_cells_x: 2
-  grid_cells_y: 3
+  grid_cells_x: 3
+  grid_cells_y: 2
   terrain_texture: {fileID: 2800000, guid: 5b4e9e7514d194b409698611d7c41472, type: 3}
   terrain_material: {fileID: 2100000, guid: 041bcb4768505484daa8809f61fc5528, type: 2}
 --- !u!1 &1171811841
@@ -819,60 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e206c361d26bc4087f579a111f478b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 9100000, guid: 09a1e4d3bea75af4c853dff848fb1865, type: 2}
-  character: {fileID: 9100000, guid: f20084a3080448f4fb3a1c4af8139b1f, type: 2}
-  animal: {fileID: 9100000, guid: e1a218d1ea7ce0e469e2a32ad28998a5, type: 2}
-  charBodyPart: {fileID: 9100000, guid: 7311643641984054495c99f637591ce7, type: 2}
   defaultClip: {fileID: 7400000, guid: 57cf63d6760183547b01fd45bbdfc1fe, type: 2}
-  MaleHair1:
-    idle_back: {fileID: 7400000, guid: c3a83ea2763f976419488a0b79fccb6d, type: 2}
-    idle_front: {fileID: 7400000, guid: c7f6ae45a7a969943a425735881f36f0, type: 2}
-    idle_right: {fileID: 0}
-    running_back: {fileID: 7400000, guid: c4cd0456c22a5964fba3028ccbd37cd0, type: 2}
-    running_front: {fileID: 7400000, guid: 44126e021a5c0c2428b35ed499363418, type: 2}
-    running_right: {fileID: 7400000, guid: 8542ce15c00a3934f8b253a07bba1390, type: 2}
-  MaleHead1:
-    idle_back: {fileID: 0}
-    idle_front: {fileID: 7400000, guid: d2a18ec946abcd948a0a18e6f455e172, type: 2}
-    idle_right: {fileID: 7400000, guid: e9f9048a647ae4e4a9f7d870e3bb4b42, type: 2}
-    running_back: {fileID: 7400000, guid: a4995b529f0216545ab7975fae1c8413, type: 2}
-    running_front: {fileID: 7400000, guid: d5cc0e90f5ef1ce45a406c45c6fc8dfc, type: 2}
-    running_right: {fileID: 7400000, guid: ca97abe68c1fa73478638dd9d0785d0a, type: 2}
-  MaleArms1:
-    idle_back: {fileID: 7400000, guid: b87b119ed297f52488c262f1b563ee82, type: 2}
-    idle_front: {fileID: 7400000, guid: 3753a8b98a2b8274ab22bdf5b33001ef, type: 2}
-    idle_right: {fileID: 7400000, guid: 11a85fa5a13387e45ab739e26c985449, type: 2}
-    running_back: {fileID: 7400000, guid: 3b1c5351aa5a2974eb50d74fce0171b1, type: 2}
-    running_front: {fileID: 7400000, guid: dea6b42440ef5554287c86129e8075b6, type: 2}
-    running_right: {fileID: 7400000, guid: 22438e84f02716e4abfc4d2ec785c298, type: 2}
-  MaleTorso1:
-    idle_back: {fileID: 7400000, guid: 8fcad7a119ecb394e8be41a166cfdc1b, type: 2}
-    idle_front: {fileID: 7400000, guid: de3a5f2b6b28a744db64886e96d344a7, type: 2}
-    idle_right: {fileID: 7400000, guid: c219ede3737405a4b9860836e1730a89, type: 2}
-    running_back: {fileID: 7400000, guid: 53d10f456281fcd4dbab923d92e32328, type: 2}
-    running_front: {fileID: 7400000, guid: dea8e07b4c8773c4b9c55d8bd7109f96, type: 2}
-    running_right: {fileID: 7400000, guid: b34513842c294784e818729c32e51f33, type: 2}
-  MaleFeet1:
-    idle_back: {fileID: 7400000, guid: 278129f02981f754c8b3af7bb1a36e23, type: 2}
-    idle_front: {fileID: 7400000, guid: 5fed5bfea16b0394bb82b1f8c34d481a, type: 2}
-    idle_right: {fileID: 7400000, guid: f7774987fefa29941b96eabc490dd1b1, type: 2}
-    running_back: {fileID: 7400000, guid: 0fcebcaadd2a6ca4da2a16c9d86ace8d, type: 2}
-    running_front: {fileID: 7400000, guid: baf7549e591e3e34ea87210e43d4f1be, type: 2}
-    running_right: {fileID: 7400000, guid: ce819f6ee282d694a86c3754a70fe1b2, type: 2}
-  MaleLegs1:
-    idle_back: {fileID: 7400000, guid: 81dbea9cf97998648974e45a20abc546, type: 2}
-    idle_front: {fileID: 7400000, guid: 4be8aca26aeacc34d99dc0687894c895, type: 2}
-    idle_right: {fileID: 7400000, guid: 1e0d13a4b5d36044595018e1f88dc105, type: 2}
-    running_back: {fileID: 7400000, guid: b15df63b69630a343be4ee2073f8b95d, type: 2}
-    running_front: {fileID: 7400000, guid: 18a1d572cba9e944eadfb507e4c0fc36, type: 2}
-    running_right: {fileID: 7400000, guid: 6074e83187941ab4bad7254ad334d34b, type: 2}
-  Rabbit1:
-    idle_back: {fileID: 7400000, guid: 77a0c9cea33c6444daaa60fe7c108a45, type: 2}
-    idle_front: {fileID: 7400000, guid: 7d8539bcb7df96742a11d96731fd6522, type: 2}
-    idle_right: {fileID: 7400000, guid: 98e829433ed23374684e68ebc63d4d1f, type: 2}
-    running_back: {fileID: 7400000, guid: 6e4b9cd904f132140b760e00bb28034c, type: 2}
-    running_front: {fileID: 7400000, guid: 691286ce19c222f4582773722f4831bf, type: 2}
-    running_right: {fileID: 7400000, guid: 0e9806eea1fc103468b812fa1ae0b3c8, type: 2}
 --- !u!1 &1759600297
 GameObject:
   m_ObjectHideFlags: 0

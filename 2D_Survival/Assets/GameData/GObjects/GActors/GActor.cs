@@ -4,8 +4,7 @@ using System.Collections;
 public class GActor : GObject {
 	
 	public WorldSector sector;
-	public BOOL_YN environmental;
-	public BOOL_YN npc;
+	public GActorProperties properties;
 
 	public float max_speed = 1f;
 
@@ -14,10 +13,9 @@ public class GActor : GObject {
 
 	public GActor_RefList_Index reflist_index;
 
-	public GActor(BOOL_YN environmental, BOOL_YN npc) {
+	public GActor(GActorProperties properties) {
 		base.type = GObjectType.Actor;	
-		this.environmental = environmental;
-		this.npc = npc;
+		this.properties = properties;
 		idle = true;
 		reflist_index = new GActor_RefList_Index ();
 	}
@@ -67,7 +65,7 @@ public class GActor : GObject {
 		active_behaviour.performBehaviour ();
 	}
 
-	public void moveTowards(Vector2 point) {
+	public bool moveTowards(Vector2 point) {
 		Vector2 mov_vector = new Vector2 (0, 0);
 		if (point.x > pos_x) {
 			mov_vector.x += Mathf.Abs(point.x-pos_x);
@@ -81,10 +79,10 @@ public class GActor : GObject {
 		else if (point.y < pos_y) {
 			mov_vector.y -= Mathf.Abs(point.y-pos_y);
 		}
-		moveBy (mov_vector);
+		return moveBy (mov_vector);
 	}
 
-	public void moveBy(Vector2 mov_vector) {
+	public bool moveBy(Vector2 mov_vector) {
 
 		Vector2 corrected_mov = new Vector2 (Mathf.Min( Mathf.Abs(mov_vector.x), max_speed ), Mathf.Min( Mathf.Abs(mov_vector.y), max_speed ));
 		if (mov_vector.x < 0) {
@@ -95,8 +93,10 @@ public class GActor : GObject {
 		}
 
 		if(corrected_mov.x != 0 || corrected_mov.y != 0) {		// if object needs to move
-			placeAtPoint (new Vector2(pos_x + corrected_mov.x, pos_y + corrected_mov.y));
+			return placeAtPoint (new Vector2(pos_x + corrected_mov.x, pos_y + corrected_mov.y));
 		}
+
+		return false;
 
 	}
 

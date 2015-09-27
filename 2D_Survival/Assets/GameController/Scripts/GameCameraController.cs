@@ -61,8 +61,7 @@ public class GameCameraController : MonoBehaviour {
 			moveTargetTemp(Vector2.right*speed);
 		}*/
 
-		Vector3 targetPosition = new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, camDepth);
-		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+		//transform.position = new Vector3 (Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y), Mathf.FloorToInt(transform.position.z));
 		//transform.position = new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, camDepth);
 
 		if(last_position != transform.position) {		// camera position changed
@@ -84,6 +83,17 @@ public class GameCameraController : MonoBehaviour {
 			adjustCamSize(zoom_level);
 		}
 
+	}
+
+	public void updateCamPosition() {
+		Vector3 targetPosition = getTargetPosition ();
+		// Hard follow: transform.position = targetPosition;
+		// Smooth follow: transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+		transform.position = targetPosition;
+	}
+
+	Vector3 getTargetPosition() {
+		return new Vector3 (GameData.FocusPoint.x, GameData.FocusPoint.y, camDepth);
 	}
 
 	private void adjustCamSize() {

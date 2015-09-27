@@ -5,6 +5,7 @@ public class Behaviour_PaceRandomly : GBehaviour {
 
 	Vector2 destinationPosition;
 	bool started = false;
+	int reach_counter;
 
 	public Behaviour_PaceRandomly() {
 
@@ -13,11 +14,16 @@ public class Behaviour_PaceRandomly : GBehaviour {
 	public override void performBehaviour() {
 		if (!started) {
 			destinationPosition = owner.getPosition ();
+			reach_counter = 500;
 			started = true;
 		}
 		if (destinationPosition.x != owner.getPosition ().x || destinationPosition.y != owner.getPosition ().y) {
 			// advance towards destination
-			owner.moveTowards (destinationPosition);
+			if (!owner.moveTowards (destinationPosition) || reach_counter <= 0) {
+				destinationPosition = owner.getPosition ();
+				reach_counter = 500;
+			}
+			reach_counter--;
 		} 
 		else {
 			// at destination
@@ -28,6 +34,7 @@ public class Behaviour_PaceRandomly : GBehaviour {
 					destinationPosition.y + UnityEngine.Random.Range (-60, 60)
 				);
 			}
+			reach_counter = 500;
 		}
 	}
 	

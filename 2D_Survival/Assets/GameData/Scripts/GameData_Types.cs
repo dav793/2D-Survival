@@ -13,6 +13,24 @@ public enum CharBodyPart { Hair, Head, Torso, Arms, Legs, Feet };
 
 public enum CharacterSlots { Hat, Hair, Eyewear, Mask, RHand, LHand, Gloves, JSleeves, Sleeves, JacketTorso, Bodysuit, Pants, Shoes };
 
+public enum TileSubdivisions { TopLeft, TopRight, BottomLeft, BottomRight};
+
+public enum StructureSizes { Small, Medium, Large };
+
+public enum GStructurePropertiesType { 
+	BlockingVegetation, 
+	NonBlockingVegetation, 
+	InteractiveProp, 
+	BlockingSceneryProp, 
+	NonBlockingSceneryProp, 
+	BlockingSceneryPropMovable, 
+	NonBlockingSceneryPropMovable 
+};
+
+public enum GStructureDimensionsType { Small, Medium, Large_2Tiles };
+
+public enum GActorPropertiesType { NPC, nonNPC, Animal };
+
 public struct GameData_Settings {
 	public int world_size;					// world side length in tiles
 	public int sector_size;					// sector side length in tiles
@@ -22,90 +40,130 @@ public struct GameData_Settings {
 	public int render_radius;				// tile radius around focus point to be within render range
 };
 
-public class EquippedSlots {
-
-	GEquippableItem[] slots;
-
-	public EquippedSlots() {
-		int num_slots = System.Enum.GetNames (typeof(CharacterSlots)).Length;
-		slots = new GEquippableItem[num_slots];
-		for (int i = 0; i < num_slots; ++i) {
-			slots[i] = null;
+public class GStructureDimensions {
+	
+	public StructureSizes size;
+	int dim_matrix_size;
+	int[,] dim_matrix;
+	Vector2 dim_matrix_origin;
+	
+	public GStructureDimensions(StructureSizes size) {
+		this.size = size;
+		if ((int)size > (int)StructureSizes.Medium) {
+			Debug.LogError("You must provide a dimension matrix and its size for structures with a size greater than Medium. Use the other constructor.");
 		}
 	}
-
-	public GEquippableItem[] getSlots() {
-		return slots;
+	
+	public GStructureDimensions(StructureSizes size, int dim_matrix_size, int[,] dim_matrix) {
+		this.size = size;
+		this.dim_matrix_size = dim_matrix_size;
+		this.dim_matrix = dim_matrix;
+		dim_matrix_origin = Vector2.zero;
 	}
 
-	public void equipItem(GEquippableItem item) {
-		foreach(KeyValuePair<CharacterSlots, string> entry in item.resource_identifiers) {
-			if(slotContainsAnyItem(entry.Key)) {
-				unequipSlot(entry.Key);
-			}
-			slots[(int)entry.Key] = item;
-		}
+	public GStructureDimensions(StructureSizes size, int dim_matrix_size, int[,] dim_matrix, Vector2 dim_matrix_origin) {
+		this.size = size;
+		this.dim_matrix_size = dim_matrix_size;
+		this.dim_matrix = dim_matrix;
+		this.dim_matrix_origin = dim_matrix_origin;
 	}
 
-	public void unequipSlot(CharacterSlots slot) {
-		GEquippableItem currentItem = slots [(int)slot];
-		foreach (KeyValuePair<CharacterSlots, string> entry in currentItem.resource_identifiers) {
-			slots[(int)entry.Key] = null;
-		}
-	}
-
-	public bool slotContainsAnyItem(CharacterSlots slot) {
-		if (slots [(int)slot] == null) {
-			return false;
-		}
-		return true;
-	}
-
-	public GEquippableItem getAtSlot(CharacterSlots slot) {
-		if (slots [(int)slot] == null) {
-			return null;
-		} 
-		return slots[(int)slot];
-	} 
-
-	public string getDefaultResourceIdentifier(CharBodyPart slot, GCharacter character) {
-		switch(slot) {
-		case CharBodyPart.Arms:
-			return "MaleArms1";
+	public static GStructureDimensions GetDefaultDimensions(GStructureDimensionsType type) {
+		switch (type) {
+		case GStructureDimensionsType.Small:
+			return new GStructureDimensions(StructureSizes.Small);
 			break;
-		case CharBodyPart.Head:
-			return "MaleHead1";
+		case GStructureDimensionsType.Medium:
+			return new GStructureDimensions(StructureSizes.Medium);
 			break;
-		case CharBodyPart.Hair:
-			return "MaleHairBrown1";
-			break;
-		case CharBodyPart.Torso:
-			return "MaleTorso1";
-			break;
-		case CharBodyPart.Legs:
-			return "MaleLegs1";
-			break;
-		case CharBodyPart.Feet:
-			return "MaleFeet1";
+		case GStructureDimensionsType.Large_2Tiles:
+			return new GStructureDimensions(StructureSizes.Large, 2, 
+				new int[2,2] {	
+					{1,0},
+					{1,0}
+				}
+			);
 			break;
 		}
-		return "invalid";
+		return null;
 	}
 
-	public void printEquippedItems() {
-		string output = "";
+	public static StructureSizes getRandomSize() {
+		int index = UnityEngine.Random.Range (0, System.Enum.GetNames (typeof(StructureSizes)).Length);
+		return (StructureSizes) index;
+	}
 
-		for (int i = 0; i < System.Enum.GetNames (typeof(CharacterSlots)).Length; ++i) {
-			string itemName = "None";
-			if(slotContainsAnyItem((CharacterSlots)i)) {
-				itemName = slots[i].getDebug();
-			}
-			output = output + (CharacterSlots)i + ": " + itemName + "\n";
+}
+
+public class GStructureProperties {
+	public BOOL_YN interactive;
+	public BOOL_YN movable;
+	public BOOL_YN environmental;
+	public bool is_blocking;
+	public CardinalDirections orientation;
+	public GStructureProperties(BOOL_YN interactive, BOOL_YN movable, BOOL_YN environmental) {
+		this.interactive = interactive;
+		this.movable = movable;
+		this.environmental = environmental;
+		is_blocking = false;
+		orientation = CardinalDirections.S;
+	}
+	public GStructureProperties(BOOL_YN interactive, BOOL_YN movable, BOOL_YN environmental, bool is_blocking) {
+		this.interactive = interactive;
+		this.movable = movable;
+		this.environmental = environmental;
+		this.is_blocking = is_blocking;
+		orientation = CardinalDirections.S;
+	}
+	public static GStructureProperties GetDefaultProperties(GStructurePropertiesType type) {
+		switch (type) {
+		case GStructurePropertiesType.BlockingVegetation:
+			return new GStructureProperties(BOOL_YN.YES, BOOL_YN.NO, BOOL_YN.YES, true);
+			break;
+		case GStructurePropertiesType.NonBlockingVegetation:
+			return new GStructureProperties(BOOL_YN.YES, BOOL_YN.NO, BOOL_YN.YES);
+			break;
+		case GStructurePropertiesType.InteractiveProp:
+			return new GStructureProperties(BOOL_YN.YES, BOOL_YN.YES, BOOL_YN.NO);
+			break;
+		case GStructurePropertiesType.NonBlockingSceneryProp:
+			return new GStructureProperties(BOOL_YN.NO, BOOL_YN.NO, BOOL_YN.NO);
+			break;
+		case GStructurePropertiesType.BlockingSceneryProp:
+			return new GStructureProperties(BOOL_YN.NO, BOOL_YN.NO, BOOL_YN.NO, true);
+			break;
+		case GStructurePropertiesType.NonBlockingSceneryPropMovable:
+			return new GStructureProperties(BOOL_YN.NO, BOOL_YN.YES, BOOL_YN.NO);
+			break;
+		case GStructurePropertiesType.BlockingSceneryPropMovable:
+			return new GStructureProperties(BOOL_YN.NO, BOOL_YN.NO, BOOL_YN.NO, true);
+			break;
 		}
-
-		Debug.Log (output);
+		return null;
 	}
+}
 
+public class GActorProperties {
+	public BOOL_YN environmental;
+	public BOOL_YN npc;
+	public GActorProperties(BOOL_YN environmental, BOOL_YN npc) {
+		this.environmental = environmental;
+		this.npc = npc;
+	}
+	public static GActorProperties GetDefaultProperties(GActorPropertiesType type) {
+		switch (type) {
+		case GActorPropertiesType.NPC:
+			return new GActorProperties(BOOL_YN.NO, BOOL_YN.YES);
+			break;
+		case GActorPropertiesType.nonNPC:
+			return new GActorProperties(BOOL_YN.NO, BOOL_YN.NO);
+			break;
+		case GActorPropertiesType.Animal:
+			return new GActorProperties(BOOL_YN.YES, BOOL_YN.NO);
+			break;
+		}
+		return null;
+	}
 }
 
 /*
@@ -161,9 +219,12 @@ public class RefList_DataStructure<T> {
 	public T getObjectAt(int position) {
 		return data [position];
 	}
-	public bool findObject(T obj) {
-		return true;
+	public List<T> getDataList() {
+		return data;
 	}
+	/*public bool findObject(T obj) {
+		return true;
+	}*/
 }
 	
 /*
@@ -277,6 +338,7 @@ public class GStructure_RefList_Index {
 	public int interactive;
 	public int movable;
 	public int environmental;
+	public TileSubdivisions subdivision;
 }
 	
 /*
@@ -322,34 +384,38 @@ public class GObject_Structures_RefList {
 		obj.reflist_index.all = all.count();
 		all.addObject (obj);
 		
-		obj.reflist_index.interactive = interactive[(int)obj.interactive].count();
-		interactive [(int)obj.interactive].addObject (obj);
+		obj.reflist_index.interactive = interactive[(int)obj.properties.interactive].count();
+		interactive [(int)obj.properties.interactive].addObject (obj);
 		
-		obj.reflist_index.movable = movable[(int)obj.movable].count();
-		movable [(int)obj.movable].addObject (obj);
+		obj.reflist_index.movable = movable[(int)obj.properties.movable].count();
+		movable [(int)obj.properties.movable].addObject (obj);
 		
-		obj.reflist_index.environmental = environmental[(int)obj.environmental].count();
-		environmental [(int)obj.environmental].addObject (obj);
+		obj.reflist_index.environmental = environmental[(int)obj.properties.environmental].count();
+		environmental [(int)obj.properties.environmental].addObject (obj);
 	}
 	public void removeObject(GStructure obj) {
 		all.removeObjectAt (obj.reflist_index.all);
 		for (int i = obj.reflist_index.all; i < all.count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
 			all.getObjectAt(i).reflist_index.all--;
 		}
 		
-		interactive[(int)obj.interactive].removeObjectAt (obj.reflist_index.interactive);
-		for (int i = obj.reflist_index.interactive; i < interactive[(int)obj.interactive].count(); ++i) {
-			interactive[(int)obj.interactive].getObjectAt(i).reflist_index.interactive--;
+		interactive[(int)obj.properties.interactive].removeObjectAt (obj.reflist_index.interactive);
+		for (int i = obj.reflist_index.interactive; i < interactive[(int)obj.properties.interactive].count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
+			interactive[(int)obj.properties.interactive].getObjectAt(i).reflist_index.interactive--;
 		}
 		
-		movable[(int)obj.movable].removeObjectAt (obj.reflist_index.movable);
-		for (int i = obj.reflist_index.movable; i < movable[(int)obj.movable].count(); ++i) {
-			movable[(int)obj.movable].getObjectAt(i).reflist_index.movable--;
+		movable[(int)obj.properties.movable].removeObjectAt (obj.reflist_index.movable);
+		for (int i = obj.reflist_index.movable; i < movable[(int)obj.properties.movable].count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
+			movable[(int)obj.properties.movable].getObjectAt(i).reflist_index.movable--;
 		}
 		
-		environmental[(int)obj.environmental].removeObjectAt (obj.reflist_index.environmental);
-		for (int i = obj.reflist_index.environmental; i < environmental[(int)obj.environmental].count(); ++i) {
-			environmental[(int)obj.environmental].getObjectAt(i).reflist_index.environmental--;
+		environmental[(int)obj.properties.environmental].removeObjectAt (obj.reflist_index.environmental);
+		for (int i = obj.reflist_index.environmental; i < environmental[(int)obj.properties.environmental].count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
+			environmental[(int)obj.properties.environmental].getObjectAt(i).reflist_index.environmental--;
 		}
 	}
 	public bool objectIsContained(GStructure obj) {
@@ -417,26 +483,29 @@ public class GObject_Actors_RefList {
 		obj.reflist_index.all = all.count();
 		all.addObject (obj);
 		
-		obj.reflist_index.environmental = environmental[(int)obj.environmental].count();
-		environmental [(int)obj.environmental].addObject (obj);
+		obj.reflist_index.environmental = environmental[(int)obj.properties.environmental].count();
+		environmental [(int)obj.properties.environmental].addObject (obj);
 		
-		obj.reflist_index.NPCs = NPCs[(int)obj.npc].count();
-		NPCs [(int)obj.npc].addObject (obj);
+		obj.reflist_index.NPCs = NPCs[(int)obj.properties.npc].count();
+		NPCs [(int)obj.properties.npc].addObject (obj);
 	}
 	public void removeObject(GActor obj) {
 		all.removeObjectAt (obj.reflist_index.all);
 		for (int i = obj.reflist_index.all; i < all.count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
 			all.getObjectAt(i).reflist_index.all--;
 		}
 		
-		environmental[(int)obj.environmental].removeObjectAt (obj.reflist_index.environmental);
-		for (int i = obj.reflist_index.environmental; i < environmental[(int)obj.environmental].count(); ++i) {
-			environmental[(int)obj.environmental].getObjectAt(i).reflist_index.environmental--;
+		environmental[(int)obj.properties.environmental].removeObjectAt (obj.reflist_index.environmental);
+		for (int i = obj.reflist_index.environmental; i < environmental[(int)obj.properties.environmental].count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
+			environmental[(int)obj.properties.environmental].getObjectAt(i).reflist_index.environmental--;
 		}
 		
-		NPCs[(int)obj.npc].removeObjectAt (obj.reflist_index.NPCs);
-		for (int i = obj.reflist_index.NPCs; i < NPCs[(int)obj.npc].count(); ++i) {
-			NPCs[(int)obj.npc].getObjectAt(i).reflist_index.NPCs--;
+		NPCs[(int)obj.properties.npc].removeObjectAt (obj.reflist_index.NPCs);
+		for (int i = obj.reflist_index.NPCs; i < NPCs[(int)obj.properties.npc].count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
+			NPCs[(int)obj.properties.npc].getObjectAt(i).reflist_index.NPCs--;
 		}
 	}
 	public bool objectIsContained(GActor obj) {
@@ -484,6 +553,7 @@ public class GObject_Items_RefList {
 	public void removeObject(GItem obj) {
 		all.removeObjectAt (obj.reflist_index.all);
 		for (int i = obj.reflist_index.all; i < all.count(); ++i) {
+			// every entry after this one had their index decreased by 1, so correct their reflist indexes
 			all.getObjectAt(i).reflist_index.all--;
 		}
 	}

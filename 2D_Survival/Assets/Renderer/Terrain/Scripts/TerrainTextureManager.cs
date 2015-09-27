@@ -9,10 +9,10 @@ public class TerrainTextureGroups {
 		// tropical forest
 		tropical_forest.Add (new Vector2(0, 0));
 		tropical_forest.Add (new Vector2(1, 0));
+		tropical_forest.Add (new Vector2(2, 0));
 		tropical_forest.Add (new Vector2(0, 1));
 		tropical_forest.Add (new Vector2(1, 1));
-		tropical_forest.Add (new Vector2(0, 2));
-		tropical_forest.Add (new Vector2(1, 2));
+		tropical_forest.Add (new Vector2(2, 1));
 	}
 }
 

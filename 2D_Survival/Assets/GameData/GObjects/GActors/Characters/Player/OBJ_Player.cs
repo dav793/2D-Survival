@@ -2,15 +2,16 @@
 using System.Collections;
 
 public class OBJ_Player : GCharacter {
-	
-	static BOOL_YN npc = BOOL_YN.NO;
-	static BOOL_YN environmental = BOOL_YN.NO;
 
-	public OBJ_Player() : base(OBJ_Player.environmental, OBJ_Player.npc) {
+	public OBJ_Player() : base(
+		GActorProperties.GetDefaultProperties(GActorPropertiesType.nonNPC)
+	) {
 		Init ();
 	}
 
-	public OBJ_Player(string gameObject_name) : base(OBJ_Player.environmental, OBJ_Player.npc) {
+	public OBJ_Player(string gameObject_name) : base(
+		GActorProperties.GetDefaultProperties(GActorPropertiesType.nonNPC)
+	) {
 		gameObjectName = gameObject_name;
 		Init ();
 	}

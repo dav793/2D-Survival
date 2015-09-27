@@ -3,7 +3,9 @@ using System.Collections;
 
 public class GAnimal : GActor {
 	
-	public GAnimal() : base(BOOL_YN.YES, BOOL_YN.NO) {
+	public GAnimal() : base(
+		GActorProperties.GetDefaultProperties(GActorPropertiesType.Animal)
+	) {
 		sprite = SpriteDatabase.sprites.default_object;
 		type = GObjectType.Animal;
 	}

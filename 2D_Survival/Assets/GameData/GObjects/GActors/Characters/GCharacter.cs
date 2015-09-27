@@ -5,11 +5,13 @@ public class GCharacter : GActor {
 
 	public EquippedSlots equipped_items;
 
-	public GCharacter() : base(BOOL_YN.NO, BOOL_YN.YES) {
+	public GCharacter() : base(
+		GActorProperties.GetDefaultProperties(GActorPropertiesType.NPC)
+	) {
 		Init ();
 	}
 
-	public GCharacter(BOOL_YN environmental, BOOL_YN npc) : base(environmental, npc) {
+	public GCharacter(GActorProperties properties) : base(properties) {
 		Init ();
 	}
 

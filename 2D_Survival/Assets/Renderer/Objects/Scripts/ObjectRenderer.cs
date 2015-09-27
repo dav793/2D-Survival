@@ -80,14 +80,14 @@ public class ObjectRenderer : MonoBehaviour {
 			(int)obj.pos_y,
 			GameRenderer.GRenderer.getZUnitsObject(obj.getPosition())
 		);
+	}
 
-		/* 	delete 
-		OBJ_Player player = obj as OBJ_Player;
-		if (player != null) {
-			//gobject is a player
-			//obj.renderedGameObject.GetComponent<PlayerController> ().updatePosition();
-		} 
-		*/
+	public void updateObjectZ(GObject obj) {
+		obj.renderedGameObject.transform.position = new Vector3(
+			obj.renderedGameObject.transform.position.x,
+			obj.renderedGameObject.transform.position.y,
+			GameRenderer.GRenderer.getZUnitsObject(new Vector2(obj.renderedGameObject.transform.position.x, obj.renderedGameObject.transform.position.y))
+		);
 	}
 
 	/*

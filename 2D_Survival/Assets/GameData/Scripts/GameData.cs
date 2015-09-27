@@ -6,8 +6,9 @@ using System.Collections.Generic;
  	Class: GameData
  	Contains all data for world simulation, and operates the data every tick to reflect time progression.
  	It is our model of the game world, in which the world and all of its constituents are represented.
- 	Its data reflects the state of the world as of the current tick. 
- 	It is not concerned with rendering, it only works on a conceptual world simulation.
+ 	Its data reflects the state of the world as of the current tick.
+ 	The renderer reads this data to generate Unity GameObjects, through which one can visualize the world.
+	Nevertheless, the data contained here is not concerned with rendering; it represents a purely conceptual data world.
  */
 
 public class GameData : MonoBehaviour {
@@ -55,39 +56,31 @@ public class GameData : MonoBehaviour {
 
 		//crate.setPosition (new Vector2(24, 24));
 
-		//GTile tl = getTileFromWorldPoint (new Vector2 (crate.pos_x, crate.pos_y));
-		//Debug.Log (tl.indexToString());
-		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
-		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).indexToString());
-		//Debug.Log (getTileFromWorldPoint(new Vector2(crate.pos_x, crate.pos_y)).Contained_Objects.objectIsContained(crate));
-		//Debug.Log (tl.Contained_Objects.objectIsContained(crate));
+		Vector2 position = Vector2.zero;
 
-
-		//rock.setPosition (new Vector2(24, 24));
-
-
-		active_player = new OBJ_Player ("Player");
-		active_player.setPosition (new Vector2(400,400));
-		//active_player.setPosition (getTile(new Vector2(0,0)).getCenter());
+		position = new Vector2 (400, 400);
+		if(!getTileFromWorldPoint(position).isBlocked()) {
+			active_player = new OBJ_Player ("Player");
+			active_player.setPosition (position);
+		}
 
 		for (int i = 0; i < 8; ++i) {
-			GCharacter charac = new GCharacter ();
-			charac.setPosition (new Vector2(400+UnityEngine.Random.Range(-100, 100), 400+UnityEngine.Random.Range(-100, 100)));
-			charac.setBehaviour (new Behaviour_PaceRandomly());
+			position = new Vector2(400+UnityEngine.Random.Range(-400, 400), 400+UnityEngine.Random.Range(-400, 400));
+				if(!getTileFromWorldPoint(position).isBlocked()) {
+				GCharacter charac = new GCharacter ();
+				charac.setPosition (position);
+				charac.setBehaviour (new Behaviour_PaceRandomly());
+			}
 		}
 
-		for (int i = 0; i < 16; ++i) {
-			OBJ_Rabbit bunny = new OBJ_Rabbit ("Liro boni");
-			bunny.setPosition (new Vector2(400+UnityEngine.Random.Range(-100, 100), 400+UnityEngine.Random.Range(-100, 100)));
-			bunny.setBehaviour (new Behaviour_PaceRandomly());
+		for (int i = 0; i < 30; ++i) {
+			position = new Vector2(400+UnityEngine.Random.Range(-400, 400), 400+UnityEngine.Random.Range(-400, 400));
+			if(!getTileFromWorldPoint(position).isBlocked()) {
+				OBJ_Rabbit bunny = new OBJ_Rabbit ("a bunny");
+				bunny.setPosition (position);
+				bunny.setBehaviour (new Behaviour_PaceRandomly());
+			}
 		}
-
-		/*OBJ_Rabbit bunny1 = new OBJ_Rabbit ("Bunny");
-		bunny1.setPosition (new Vector2(200+UnityEngine.Random.Range(-100, 100), 200+UnityEngine.Random.Range(-100, 100)));
-		bunny1.setBehaviour (new Behaviour_PaceRandomly());
-		OBJ_Rabbit bunny2 = new OBJ_Rabbit ("Psychotic bunny");
-		bunny2.setPosition (new Vector2(200+UnityEngine.Random.Range(-100, 100), 200+UnityEngine.Random.Range(-100, 100)));
-		bunny2.setBehaviour (new Behaviour_PaceRandomly());*/
 		// END TESTS
 
 	}
@@ -143,11 +136,21 @@ public class GameData : MonoBehaviour {
 	}
 
 	public GTile getTile(Vector2 indexes) {
-		return worldTiles[(int)indexes.x, (int)indexes.y];
+		if(tileExists(indexes)) {
+			return worldTiles[(int)indexes.x, (int)indexes.y];
+		}
+		return null;
 	}
 
 	public GTile getTileFromWorldPoint(Vector2 point) {
 		return getTile(worldPointToTileIndexes (point));
+	}
+
+	public bool pointBelongsToTile(Vector2 point, GTile tile) {
+		if (getTile (worldPointToTileIndexes (point)) == tile) {
+			return true;
+		}
+		return false;
 	}
 
 	public WorldSector getSectorFromWorldPoint(Vector2 point) {
@@ -203,6 +206,119 @@ public class GameData : MonoBehaviour {
 		);
 		return world_point;
 	}
+
+	public Vector2 tileIndexesToWorldPoint(Vector2 tile_indexes, TileSubdivisions subdivision) {
+		Vector2[] boundaries = getTileSubdivisionBoundaries (getTile(tile_indexes), subdivision);
+		return boundaries [0];
+	}
+
+	public bool pointBelongsToTileSubdivision(Vector2 point, GTile tile, TileSubdivisions subdivision) {
+		if (pointBelongsToTile (point, tile)) {
+			Vector2[] boundaries = getTileSubdivisionBoundaries(tile, subdivision);
+			if(point.x > boundaries[0].x && point.x < boundaries[1].x && point.y > boundaries[0].y && point.y < boundaries[1].y) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 *  Function: getSubdivisionFromPoint
+	 *  
+	 *  Parameters: Vector2:<point>
+	 * 
+	 * 	Returns: TileSubdivisions
+	 * 
+	 * 	-Returns the TileSubdivision of the tile which contains <point> in which <point> is located.
+	 */
+	public TileSubdivisions getSubdivisionFromPoint(Vector2 point) {
+		GTile tile = getTileFromWorldPoint (point);
+		if (pointBelongsToTileSubdivision (point, tile, TileSubdivisions.TopLeft)) {
+			return TileSubdivisions.TopLeft;
+		}
+		if (pointBelongsToTileSubdivision (point, tile, TileSubdivisions.TopRight)) {
+			return TileSubdivisions.TopRight;
+		}
+		if (pointBelongsToTileSubdivision (point, tile, TileSubdivisions.BottomLeft)) {
+			return TileSubdivisions.BottomLeft;
+		}
+		if (pointBelongsToTileSubdivision (point, tile, TileSubdivisions.BottomRight)) {
+			return TileSubdivisions.BottomRight;
+		}
+		return TileSubdivisions.TopLeft;
+	}
+
+	/*
+	 *  Function: getTileSubdivisionBoundaries
+	 *  
+	 *  Parameters: GTile:<tile>, TileSubdivisions:<subdivision>
+	 * 
+	 * 	Returns: Vector2[2]
+	 * 
+	 * 	-Returns a two-element array containing Vector2s to represent the position boundary points of <tile>s <subdivision>
+	 *  
+	 *  Tiles are subdivided as follows:
+	 * 			+---+---+
+	 * 			|[0]|[1]|
+	 * 			+---+---+
+	 * 			|[2]|[3]|
+	 * 			+---+---+
+	 * 	where: 
+	 * 		subdivision [0] = TileSubdivisions.TopLeft
+	 * 		subdivision [1] = TileSubdivisions.TopRight
+	 * 		subdivision [2] = TileSubdivisions.BottomLeft
+	 * 		subdivision [3] = TileSubdivisions.BottomRight
+	 * 
+	 * 	Then the returned array contains the position of the 2 points that delimitate <tile>s <subdivision>, as follows:
+	 * 		<returned>[0] = Top-Left point
+	 * 		<returned>[1] = Bottom-Right point
+	 * 
+	 */
+	public Vector2[] getTileSubdivisionBoundaries(GTile tile, TileSubdivisions subdivision) {
+	
+		Vector2 tile_origin = tile.getOrigin();
+		Vector2[] boundaries = new Vector2[2] { Vector2.zero, Vector2.zero };
+
+		switch (subdivision) {
+		case TileSubdivisions.TopLeft:
+			boundaries[0] = new Vector2(tile_origin.x + 0, tile_origin.y + GameController.DataSettings.tile_width / 2);
+			boundaries[1] = new Vector2(tile_origin.x + GameController.DataSettings.tile_width / 2, tile_origin.y + GameController.DataSettings.tile_width);
+			break;
+		case TileSubdivisions.TopRight:
+			boundaries[0] = new Vector2(tile_origin.x + GameController.DataSettings.tile_width / 2, tile_origin.y + GameController.DataSettings.tile_width / 2);
+			boundaries[1] = new Vector2(tile_origin.x + GameController.DataSettings.tile_width, tile_origin.y + GameController.DataSettings.tile_width);
+			break;
+		case TileSubdivisions.BottomLeft:
+			boundaries[0] = new Vector2(tile_origin.x + 0, tile_origin.y + 0); 
+			boundaries[1] = new Vector2(tile_origin.x + GameController.DataSettings.tile_width / 2, tile_origin.y + GameController.DataSettings.tile_width / 2); 
+			break;
+		case TileSubdivisions.BottomRight:
+			boundaries[0] = new Vector2(tile_origin.x + GameController.DataSettings.tile_width / 2, tile_origin.y + 0);
+			boundaries[1] = new Vector2(tile_origin.x + GameController.DataSettings.tile_width, tile_origin.y + GameController.DataSettings.tile_width / 2);
+			break;
+		}
+
+		return boundaries;
+
+	}
+
+	/*
+	 *  Function: tileExists
+	 *  
+	 *  Parameters: Vector2:<tile_index>
+	 * 
+	 * 	Returns: bool
+	 * 
+	 * 	-Returns false if tile indexes given by <tile_index> are out of bounds of <worldTiles> array.
+	 *  -Returns true if they are within bounds.
+	 */
+	public bool tileExists(Vector2 tile_index) {
+		if(tile_index.x >= 0 && tile_index.x < GameController.DataSettings.world_size && tile_index.x >= 0 && tile_index.x < GameController.DataSettings.world_size) {
+			// tile exists
+			return true;
+		}
+		return false;
+	} 
 		
 	/*
 	 *  Function: requestObjectPositionChange
@@ -214,19 +330,41 @@ public class GameData : MonoBehaviour {
 	 * 	-Prompts GameData to change the position of <obj> to <new_position>.
 	 *  -Returns true if position is changed successfully.
 	 * 	-Returns false if position could not be changed.
-	 *  -Please note: GObjects should only be moved by using this procedure, instead of directly changing the objects position properties. 
-	 * 	 Otherwise, objects could be moved into unwanted positions.
+	 *  -Please note: GObjects should only ever be moved using this procedure, instead of directly modifying the objects position properties. 
+	 * 	 As long as this rule is followed, objects should never be moved into unwanted positions.
 	 */
 	public bool requestObjectPositionChange(GObject obj, Vector2 new_position) {
 
-		if (positionIsOutOfWorldBounds (new_position)) {
-			return false;
+		Vector2 newX = new Vector2 (new_position.x, obj.pos_y);
+		Vector2 newY = new Vector2 (obj.pos_x, new_position.y);
+		Vector2 result = new_position;
+
+		if (positionIsOutOfWorldBounds (result)) {
+			if (!positionIsOutOfWorldBounds (newX)) {
+				result.y = obj.pos_y;
+			} else if (!positionIsOutOfWorldBounds (newY)) {
+				result.x = obj.pos_x;
+			} else {
+				return false;	//new position is out of bounds
+			}
 		}
 
-		obj.pos_x = new_position.x;
-		obj.pos_y = new_position.y;
+		if (getTileFromWorldPoint (result).isBlocked ()) {
+			if (!getTileFromWorldPoint (newX).isBlocked ()) {
+				result.y = obj.pos_y;
+			} else if (!getTileFromWorldPoint (newY).isBlocked ()) {
+				result.x = obj.pos_x;
+			} else {
+				//new position is blocked, move away from the center of blocked tile <obj> is running into
 
+				return false;
+			}
+		}
+
+		obj.pos_x = result.x;
+		obj.pos_y = result.y;
 		return true;
+
 	}
 
 	/*
@@ -267,8 +405,13 @@ public class GameData : MonoBehaviour {
 	}
 
 	void updateFocusPoint() {
-		if (active_player != null) {
-			FocusPoint = new Vector2 (active_player.pos_x, active_player.pos_y);
+		if (active_player != null && active_player.renderedGameObject != null) {
+			/*FocusPoint = new Vector2 (
+				active_player.renderedGameObject.transform.position.x, 
+				active_player.renderedGameObject.transform.position.y
+			);*/
+			FocusPoint = new Vector2(active_player.pos_x, active_player.pos_y);
+			GameCameraController.GCamControl.updateCamPosition();
 		}
 	}
 
